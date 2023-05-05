@@ -1,25 +1,76 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Login } from './components/Login';
+import { Register } from "./components/Register";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
+  const [currentForm, setCurrentForm] = useState('login');
+
+  const toggleForm = (formName) => {
+    setCurrentForm(formName);
+  }
+
+    return (
+      <div className="App">
+        {
+          currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : <Register onFormSwitch={toggleForm}/>
+        }
+
+      </div>
+    );
+};
+
+export default App;
+
+
+/*
+<BrowserRouter>
+        <nav>
+          <Link to="/logout">Logout</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/logout" element={<Logout />}/>
+          <Route path="/login" element={<Login />}/>
+          <Route path="*" element={<ErrorPage />}/>
+        </Routes>
+      </BrowserRouter>
+*/
+
+
+      /* 
+      <Auth />
+            <div>
+              <input placeholder="File name..."/>
+              <input placeholder="upload date..."/>
+              
+            </div>
+      
+            <div>
+              {imageList.map((image) => (
+              <div>
+                  <h1> {image.name} </h1>
+                  <p>Location: {image.location}</p>
+                  <p>Date: {new Date(image.upload_date.seconds * 1000).toLocaleDateString("en-US")}</p>
+                </div>
+          ))}
+            </div>
+          </div><div className="App">
+            <header className="App-header">
+              <img src={logo} className="App-logo" alt="logo"/>
+              <p>
+                Edit <code>src/App.js</code> and save to reload.
+              </p>
+              <a 
+      className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+      >
+                Learn React
+              </a>
+              <h1>My App</h1>
+            </header>
+          </div></>
+    */
