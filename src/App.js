@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Login } from './pages/Login';
 import { Register } from "./pages/Register";
 import { Home } from './pages/Home';
+import { Settings } from './pages/Settings';
+import { Library } from './pages/Library';
 import { NoPage } from './pages/NoPage';
-
-// create nav bar component <Navbar />
 
 import './App.css';
 
@@ -19,6 +19,8 @@ function App() {
             <Route path="/" element={<Home />}/>
             <Route path="/login" element={<Login />}/>
             <Route path="/register" element={<Register />}/>
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/library" element={<Library />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
         </Router>

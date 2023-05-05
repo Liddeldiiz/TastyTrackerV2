@@ -5,6 +5,8 @@ import {
     createUserWithEmailAndPassword, 
     signInWithPopup } from 'firebase/auth';
 import { toast } from "react-toastify";
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../config/Firebase';
 
 export const Register = (props) => {
     const navigate = useNavigate();
@@ -12,8 +14,23 @@ export const Register = (props) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+    const [userName, setUserName] = useState("");
+    const [userId, setUserId] = useState("");
     const [isLoading, setLoading] = useState(false);
+
+    const addUserName = async (e) => {
+      e.preventDefault();
+
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          username: userName,
+          userId: userId
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,6 +48,12 @@ export const Register = (props) => {
           try {
             await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
                 const user = userCredential.user;
+                setUserId(auth?.currentUser.uid)
+                console.log(auth?.currentUser.uid); // gets the user uid
+
+                console.log("adding the username to the /users collection");
+                //addUserName(); adding user name does not work yet
+
                 setLoading(false);
 
                 navigate('/login');
@@ -64,8 +87,8 @@ export const Register = (props) => {
         <div className="auth-form-container">
         <form className="register-form" onSubmit={handleSubmit}>
             <input 
-            onChange={(e) => setName(e.target.value)} 
-            placeholder="your name" 
+            onChange={(e) => setUserName(e.target.value)} 
+            placeholder="your username" 
             id="name" 
             name="name"/>
 
@@ -83,7 +106,7 @@ export const Register = (props) => {
             id="password" 
             name="password"/>
 
-            <button type="submit"> Login </button>
+            <button type="submit"> Sign in </button>
         </form>
         <button onClick={signInWithGoogle}> Sign in with Google </button>
         <button onClick={redirectLogin}>To Login page</button>
