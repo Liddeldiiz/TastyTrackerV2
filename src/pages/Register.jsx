@@ -1,13 +1,47 @@
 import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { auth, googleProvider } from '../config/Firebase';
+import { 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    signInWithPopup } from 'firebase/auth';
+import { toast } from "react-toastify";
 
 export const Register = (props) => {
+    const navigate = useNavigate();
+    const notify = (text) => toast(text);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email);
+        if (!email) {
+            notify("Provide email!");
+            return;
+          }
+      
+          if (!password) {
+            notify("Provide password!");
+            return;
+          }
+          setLoading(true);
+
+          try {
+            await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                const user = userCredential.user;
+                setLoading(false);
+
+                navigate('/login');
+            })
+          } catch (err) {
+            const errorMessage = err.message;
+            notify(errorMessage);
+            setLoading(false);
+          }
+          
     }
 
     return (
@@ -38,7 +72,7 @@ export const Register = (props) => {
 
             <button type="submit"> Login </button>
         </form>
-        <button className="link-btn" onClick={() => props.onFormSwitch('login')}> Already have an account? Login here</button>
+        <p>Already have an account?<NavLink to="/register">Login here.</NavLink></p>
         </div>
     )
 }

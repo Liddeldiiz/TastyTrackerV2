@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 import { auth } from '../config/Firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { Navigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+
+// spinner for loading...
 
 
 export const Login = (props) => {
+    const navigate = useNavigate();
+    const notify = (text) => toast(text);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState({});
+    const [isLoading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
-            const user = await signInWithEmailAndPassword(
-                auth, 
-                email, 
-                password);
+            await signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                const user = userCredential.user;
+                setLoading(false);
+                navigate("/");
+            })
         } catch(err) {
-            console.log(err);
+            const errorMessage = err.message;
+            notify(errorMessage);
+            setLoading(false);
         }
-        //console.log(email);
     }
 
     return (
@@ -44,7 +53,7 @@ export const Login = (props) => {
 
             <button type="submit"> Login </button>
         </form>
-        <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button>
+        <p>Don't have an account?<NavLink to="/register">Register here.</NavLink></p>
         </div>
     )
 }
