@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { auth, googleProvider } from '../config/Firebase';
 import { 
     createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword,
     signInWithPopup } from 'firebase/auth';
 import { toast } from "react-toastify";
 

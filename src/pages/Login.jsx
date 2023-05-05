@@ -41,7 +41,7 @@ export const Login = (props) => {
               const user = userCredential.user;
               setLoading(false);
   
-              navigate('/login');
+              navigate('/');
             });
         } catch(err) {
             console.error(err);

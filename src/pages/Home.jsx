@@ -20,9 +20,8 @@ if(user?.email == undefined) {
 
     return (
     <div>
-      <h1>Home</h1>
-      <h4> User Logged In: </h4>
-      {user?.email}
+      <h1>Hi, {user.email}</h1>
+      
       <Logout />
     </div>
     );
