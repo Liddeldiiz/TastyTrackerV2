@@ -44,17 +44,32 @@ export const Register = (props) => {
           
     }
 
+    const signInWithGoogle = async () => {
+      try {
+          await signInWithPopup(auth, googleProvider).then((userCredential) => {
+            const user = userCredential.user;
+            setLoading(false);
+
+            navigate('/login');
+          });
+      } catch(err) {
+          console.error(err);
+      }
+    };
+
+    const redirectLogin = async => {
+      navigate("/login");
+  }
+
     return (
         <div className="auth-form-container">
         <form className="register-form" onSubmit={handleSubmit}>
-            <label htmlFor="name">name</label>
             <input 
             onChange={(e) => setName(e.target.value)} 
             placeholder="your name" 
             id="name" 
             name="name"/>
 
-            <label htmlFor="email">email</label>
             <input 
             onChange={(e) => setEmail(e.target.value)} 
             type="email" 
@@ -62,7 +77,6 @@ export const Register = (props) => {
             id="email" 
             name="email"/>
 
-            <label htmlFor="password">password</label>
             <input 
             onChange={(e) => setPassword(e.target.value)} 
             type="password" 
@@ -72,7 +86,8 @@ export const Register = (props) => {
 
             <button type="submit"> Login </button>
         </form>
-        <p>Already have an account?<NavLink to="/register">Login here.</NavLink></p>
+        <button onClick={signInWithGoogle}> Sign in with Google </button>
+        <button onClick={redirectLogin}>To Login page</button>
         </div>
     )
 }

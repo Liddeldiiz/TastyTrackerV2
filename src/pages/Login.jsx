@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { auth } from '../config/Firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, googleProvider } from '../config/Firebase';
+import { 
+        signInWithEmailAndPassword,
+        signInWithPopup 
+    } from 'firebase/auth';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
@@ -32,10 +35,40 @@ export const Login = (props) => {
         }
     }
 
+    const logInWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider).then((userCredential) => {
+              const user = userCredential.user;
+              setLoading(false);
+  
+              navigate('/login');
+            });
+        } catch(err) {
+            console.error(err);
+        }
+      };
+  
+      const redirectLogin = async => {
+        navigate("/login");
+    }
+
+    const redirectSignIn = async => {
+        navigate("/register");
+    }
+
+    const ColoredLine = (color) => { // Not working yet
+        <hr
+            style={{
+                color: color,
+                backgroundColor: color,
+                height: 5
+            }}
+        />
+    };
+
     return (
         <div className="auth-form-container">
         <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="email">email</label>
             <input 
             onChange={(e) => setEmail(e.target.value)} 
             type="email" 
@@ -43,7 +76,8 @@ export const Login = (props) => {
             id="email" 
             name="email"/>
 
-            <label htmlFor="password">password</label>
+            <ColoredLine color="red"/>
+
             <input 
             onChange={(e) => setPassword(e.target.value)} 
             type="password" 
@@ -53,7 +87,8 @@ export const Login = (props) => {
 
             <button type="submit"> Login </button>
         </form>
-        <p>Don't have an account?<NavLink to="/register">Register here.</NavLink></p>
+        <button onClick={redirectSignIn}>Sign in</button>
+        <button onClick={logInWithGoogle}>Log in with Google</button>
         </div>
     )
 }
