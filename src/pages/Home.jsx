@@ -1,15 +1,42 @@
-import { auth } from '../config/Firebase';
+import { auth, db } from '../config/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useState } from "react";
+import { collection, getDocs, GeoPoint } from 'firebase/firestore';
+import { useState, useEffect } from "react";
+
 
 export const Home = () => {
   const [user, setUser] = useState({});
+  // const [image, setImage] = useState("") should we pass pictures as string?
+  const [images, setImages] = useState([])
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
+ 
 
-    return (
+  useEffect(() => {
+    const fetchImages = async () => {
+
+    try {
+      await getDocs(collection(db, "images"))
+        .then(((querySnapshot) => {
+          const newData = querySnapshot.docs
+            .map((doc) => ({...doc.data(), id:doc.id }));
+          setImages(newData);
+          console.log("fetched data from images collection");
+          //console.log(images, newData);
+      }));
+      
+    } catch (e) {
+      let errorMessage = e.message;
+      console.log(errorMessage);
+    }
+  } 
+    
+    fetchImages();
+  }, []);
+
+  return (
     <div>
       <div className='app-header'>
         <h3 className='welcome-user'>Hi, {user.email}</h3>
@@ -25,7 +52,27 @@ export const Home = () => {
         </div>
 
         <div className='uploads'>
-          <h3> images </h3>
+          <h3> Yesterday </h3>
+          <div>
+            <p>--------------</p>
+             {
+                images?.map((image,i) => {
+                  
+                  const uploadDate = image.upload_date.toDate();
+                  //console.log(image.i); // func not showing the <p> element on hte page
+                  return (
+                    <div key={i}> 
+                      <p>{image.name}</p>
+                      <p>{uploadDate.toString()}</p>
+                      <p> Location </p>
+                      <p>Location: lat: {image.Location.latitude} long: {image.Location.longitude}</p>
+                      <p>{image.id}</p>
+                    </div>
+                  );
+                })
+              }
+            <p>--------------</p>
+          </div>
         </div>
 
         <div className='uploads'>
@@ -42,4 +89,3 @@ export const Home = () => {
     );
 
 }
-  
