@@ -48,7 +48,7 @@ export const Register = (props) => {
           try {
             await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
                 const user = userCredential.user;
-                setUserId(auth?.currentUser.uid)
+                setUserId(auth?.currentUser.uid) // this writes null to the userId
                 console.log("userId in createUserWithEmailAndPassword: ", auth?.currentUser.uid); // gets the user uid
 
                 console.log("adding the username to the /users collection");

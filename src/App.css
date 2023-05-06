@@ -40,8 +40,15 @@
   align-items: center;
 }
 
-.app-header {
-  
+.collapsible .content {
+  padding: 6px;
+  background-color:#eeeeee;
+}
+
+.collapsible .header {
+  background-color: #dddddd;
+  padding: 6px;
+  cursor: pointer;
 }
 
 label {

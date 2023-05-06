@@ -2,17 +2,27 @@ import { auth, db } from '../config/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs, GeoPoint } from 'firebase/firestore';
 import { useState, useEffect } from "react";
+import { useCollapse } from 'react-collapsed';
 
+import { AccordionHome } from '../components/AccordionHome';
 
 export const Home = () => {
   const [user, setUser] = useState({});
   // const [image, setImage] = useState("") should we pass pictures as string?
   const [images, setImages] = useState([])
 
+  const [isPlusClicked, setIsPlusClicked] = useState(false);
+
+  const [ isExpanded, setExpand ] = useState(false);
+  const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
+
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
- 
+
+  const handleCollapsibleOnClick = () => {
+    setExpand(!isExpanded);
+  }
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -81,11 +91,33 @@ export const Home = () => {
         
       </div>
       <div className='app-footer'>
+        
         <p> This is the app footer. </p>
-        <p className='plus-symbol'> + </p>
+              <AccordionHome />
+      
       </div>
       
     </div>
     );
 
 }
+
+/*
+
+<div className='collapsible'>
+          
+          <div className='header' {...getToggleProps({onClick: handleCollapsibleOnClick /* this is freezing the application })}>*/
+          /*{isExpanded ? 'Collapse' : 'Expand'}
+          </div>
+          
+          <div {...getCollapseProps()}>
+            
+            <div className='content'>
+              Now you can see the hidden content <br></br>
+            </div>
+          
+          </div>
+        
+        </div>
+
+*/
