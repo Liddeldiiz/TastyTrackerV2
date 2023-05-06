@@ -5,3 +5,7 @@
 .accordion__faq .inactive {
     display: none;
 }
+
+.verticle {
+    cursor: pointer;
+}

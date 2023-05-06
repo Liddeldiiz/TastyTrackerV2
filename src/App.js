@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { Login } from './pages/Login';
@@ -8,7 +8,7 @@ import { Settings } from './pages/Settings';
 import { Library } from './pages/Library';
 import { NoPage } from './pages/NoPage';
 
-import './App.css';
+import './static/css/App.css';
 
 function App() {
     return (

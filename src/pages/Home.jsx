@@ -1,8 +1,7 @@
 import { auth, db } from '../config/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { collection, getDocs, GeoPoint } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { useState, useEffect } from "react";
-import { useCollapse } from 'react-collapsed';
 
 import { AccordionHome } from '../components/AccordionHome';
 
@@ -11,18 +10,9 @@ export const Home = () => {
   // const [image, setImage] = useState("") should we pass pictures as string?
   const [images, setImages] = useState([])
 
-  const [isPlusClicked, setIsPlusClicked] = useState(false);
-
-  const [ isExpanded, setExpand ] = useState(false);
-  const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
-
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
-
-  const handleCollapsibleOnClick = () => {
-    setExpand(!isExpanded);
-  }
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -93,7 +83,7 @@ export const Home = () => {
       <div className='app-footer'>
         
         <p> This is the app footer. </p>
-              <AccordionHome />
+          <AccordionHome />
       
       </div>
       
@@ -102,6 +92,8 @@ export const Home = () => {
 
 }
 
+
+///////////////////////////////////////Not used///////////////////////////////////////
 /*
 
 <div className='collapsible'>
