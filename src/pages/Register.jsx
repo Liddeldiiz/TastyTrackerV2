@@ -18,13 +18,13 @@ export const Register = (props) => {
     const [userId, setUserId] = useState("");
     const [isLoading, setLoading] = useState(false);
 
-    const addUserName = async (e) => {
-      e.preventDefault();
-
+    const addUserName = async () => {
+      //e.preventDefault();
+      console.log("userId from previous step:", auth?.currentUser.uid);
       try {
         const docRef = await addDoc(collection(db, "users"), {
           username: userName,
-          userId: userId
+          userId: auth?.currentUser.uid
         });
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
@@ -49,10 +49,10 @@ export const Register = (props) => {
             await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
                 const user = userCredential.user;
                 setUserId(auth?.currentUser.uid)
-                console.log(auth?.currentUser.uid); // gets the user uid
+                console.log("userId in createUserWithEmailAndPassword: ", auth?.currentUser.uid); // gets the user uid
 
                 console.log("adding the username to the /users collection");
-                //addUserName(); adding user name does not work yet
+                addUserName(); //adding user name does not work yet
 
                 setLoading(false);
 
