@@ -7,6 +7,7 @@ import { AccordionHome } from '../components/AccordionHome';
 
 import home_icon from '../static/images/home_icon.svg';
 import settings_icon from '../static/images/settings_icon.svg';
+import folder_icon from '../static/images/folder_icon.svg';
 
 export const Home = () => {
   const [user, setUser] = useState({});
@@ -51,7 +52,7 @@ export const Home = () => {
 
       <div className='app-body'>
         <p> This is the app body. </p>
-        <a href='./library' className='lib-img'>Library img <p className='lib-desc'>Library</p> </a>
+        <a href='./library' className='lib-img'><img src={folder_icon}/><p className='lib-desc'>Library</p> </a>
 
         <div className='uploads'>
           <h3 className='uploads-msg'> Add your first meal of the day </h3>
