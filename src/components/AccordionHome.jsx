@@ -6,6 +6,9 @@ import { Popup } from './Popup.jsx';
 
 import '../static/css/accordionHome.css';
 
+import plus_icon from '../static/images/plus_icon.svg';
+import minus_icon from '../static/images/minus_icon.png';
+
 export const AccordionHome = () => {
     const [accordion, setActiveAccordion] = useState(false);
     const [buttonPopup, setButtonPopup] = useState(false);
@@ -26,15 +29,11 @@ export const AccordionHome = () => {
                     <div onClick={toggleAccordion}>
                         {accordion ? (
                         <>
-                            <span className="verticle">
-                                -
-                            </span>
+                            <img src={minus_icon}/>
                         </>
                         ) : (
                         <>
-                            <span className="verticle">
-                                +
-                            </span>
+                            <img src={plus_icon}/>
                         </>
                         )}
                     </div>

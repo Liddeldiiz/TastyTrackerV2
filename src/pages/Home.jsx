@@ -43,7 +43,6 @@ export const Home = () => {
   return (
     <div>
       <div className='app-header'>
-        <img src={home_icon} />
         <h3 className='welcome-user'>Hi, {user.email}</h3>
         <a href='./settings' className='settings-img'>
           <img src={settings_icon} />
@@ -52,7 +51,7 @@ export const Home = () => {
 
       <div className='app-body'>
         <p> This is the app body. </p>
-        <a href='./library' className='lib-img'><img src={folder_icon}/><p className='lib-desc'>Library</p> </a>
+        <a href='./library'><img src={folder_icon} className='lib-img'/><h3 className='lib-desc'>Library</h3> </a>
 
         <div className='uploads'>
           <h3 className='uploads-msg'> Add your first meal of the day </h3>
