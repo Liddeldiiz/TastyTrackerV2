@@ -35,10 +35,10 @@
 }
 
 .settings-img {
-  position: absolute;
-  right: 45rem;
+  position: relative;
   display: block;
-  margin-left: 5px;
+  margin-left: auto;
+  align-content: right;
   justify-content: right;
 }
 

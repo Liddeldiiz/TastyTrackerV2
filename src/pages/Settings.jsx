@@ -24,60 +24,59 @@ export const Settings = () => {
 
     return (
 
+      <div>
         <div>
-      <div className='app-header'>
-        <img src={settings_icon} className='settings-img' />
-        <h3 className='settings-img'> Settings </h3>
-        <a href='/' className='home-img'>
-          <img src={home_icon}/>
-        </a>
-      </div>
+          <img src={settings_icon} className='settings-img' />
+          <h3 className='settings-img'> Settings </h3>
+          <a href='/' className='home-img'>
+            <img src={home_icon}/>
+          </a>
+        </div>
 
-      <div className='app-body'>
-        <p> This is the app body. </p>
-        <h3 className='welcome-user'>Hi, {user.email}</h3>
+        <div className='app-body'>
+          <p> This is the app body. </p>
+          <h3 className='welcome-user'>Hi, {user.email}</h3>
 
-        <div className='user-settings'>
+          <div className='user-settings'>
 
-          <input 
-          type='text'
-          placeholder="Username..."
-          id='username'
-          name='username'/>
+            <input 
+            type='text'
+            placeholder="Username..."
+            id='username'
+            name='username'/>
 
-          <input 
-          type='email'
-          placeholder="Email address..."
-          id='email'
-          name='email'/>
+            <input 
+            type='email'
+            placeholder="Email address..."
+            id='email'
+            name='email'/>
 
-          <input 
-          type='number'
-          placeholder="Meals per day..."
-          id='mealsPerDay'
-          name='mealsPerDay'/>
+            <input 
+            type='number'
+            placeholder="Meals per day..."
+            id='mealsPerDay'
+            name='mealsPerDay'/>
 
-          <p> Time before notifications </p>
+            <p> Time before notifications </p>
 
-          <div className="notification-settings">
-            <p> notification settings</p>
+            <div className="notification-settings">
+              <p> notification settings</p>
+            </div>
+
           </div>
-
+          <div className='uploads'>
+            <h3> images </h3>
+          </div>
+          
+          <div className='uploads'>
+            <h3> images </h3>
+          </div>
+          
         </div>
-        <div className='uploads'>
-          <h3> images </h3>
+        <div className='app-footer'>
+          <p> This is the app footer. </p>
+          <Logout />
+          <Delete />
         </div>
-        
-        <div className='uploads'>
-          <h3> images </h3>
-        </div>
-        
-      </div>
-      <div className='app-footer'>
-        <p> This is the app footer. </p>
-        <Logout />
-        <Delete />
-      </div>
-      
     </div>);
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, db, storage } from '../config/Firebase';
-import { collection, Timestamp } from 'firebase/firestore';
+import { collection, Firestore, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { addToImageCollection } from "./UploadToCollection";
@@ -18,14 +18,7 @@ export const UploadImage = (props) => {
     const showCurrentUser = () => {
 
         const d = new Date();
-    
-        const sec = d.getSeconds();
-        const nanoSec = (d.getMilliseconds) * 1000000
-
-
-        const t = new Timestamp.fromDate(d); // cannot create a new timestamp with the fromDate method
-        console.log("new date: ", t)
-
+        console.log("type of date; ", typeof(d));
         return auth?.currentUser.uid;
     }
 
@@ -36,7 +29,8 @@ export const UploadImage = (props) => {
     
         console.log("uploading..."); // perhaps a spinner/loading bar here?
 
-        //addToImageCollection(showCurrentUser, imageRef.fullPath);
+        let uid = showCurrentUser();
+        addToImageCollection(uid, imageRef.fullPath);
 
         console.log("imageRef: ", imageRef.fullPath);
         uploadBytes(imageRef, imageUpload).then((snapshot) => {

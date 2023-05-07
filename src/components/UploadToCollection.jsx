@@ -9,7 +9,7 @@ export async function addToImageCollection(uid, imageRefPath) {
     //e.preventDefault();
     console.log("userId from previous step:", uid);
     const d = new Date();
-    const t = new Timestamp(d.getSeconds, d.getMilliseconds * 1000000);
+    //const t = new Timestamp(d.getSeconds, d.getMilliseconds * 1000000);
     
     console.log("new date: ", d)
     try {
