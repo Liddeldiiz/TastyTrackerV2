@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 
 import { AccordionHome } from '../components/AccordionHome';
 
+import home_icon from '../static/images/home_icon.svg';
+import settings_icon from '../static/images/settings_icon.svg';
+
 export const Home = () => {
   const [user, setUser] = useState({});
   // const [image, setImage] = useState("") should we pass pictures as string?
@@ -39,8 +42,11 @@ export const Home = () => {
   return (
     <div>
       <div className='app-header'>
+        <img src={home_icon} />
         <h3 className='welcome-user'>Hi, {user.email}</h3>
-        <a href='./settings' className='settings-img'> Settings symbol </a>
+        <a href='./settings' className='settings-img'>
+          <img src={settings_icon} />
+        </a>
       </div>
 
       <div className='app-body'>

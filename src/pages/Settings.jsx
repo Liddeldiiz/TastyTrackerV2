@@ -6,8 +6,14 @@ import { toast } from "react-toastify";*/
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../config/Firebase';
 
+
+// Components
 import { Delete } from '../components/Delete';
 import { Logout } from '../components/Logout';
+
+// Images
+import home_icon from '../static/images/home_icon.svg';
+import settings_icon from '../static/images/settings_icon.svg';
 
 export const Settings = () => {
     const [user, setUser] = useState({});
@@ -20,9 +26,11 @@ export const Settings = () => {
 
         <div>
       <div className='app-header'>
-        <h3 className='settings-img'> Settings img </h3>
+        <img src={settings_icon} className='settings-img' />
         <h3 className='settings-img'> Settings </h3>
-        <a href='/' className='home-img'> Home symbol </a>
+        <a href='/' className='home-img'>
+          <img src={home_icon}/>
+        </a>
       </div>
 
       <div className='app-body'>
