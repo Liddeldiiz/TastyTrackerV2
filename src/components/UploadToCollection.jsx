@@ -5,7 +5,7 @@ import { db } from '../config/Firebase';
 
 
 
-export async function addToImageCollection(uid, imageRefPath) {
+export async function addToImageCollection(uid, imageRefPath, location, tag) {
     //e.preventDefault();
     console.log("userId from previous step:", uid);
     const d = new Date();
@@ -16,7 +16,9 @@ export async function addToImageCollection(uid, imageRefPath) {
       const docRef = await addDoc(collection(db, "images"), {
         user_id: uid,
         image_reference_path: imageRefPath,
-        upload_date: d
+        upload_date: d,
+        location: location,
+        tag: tag
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {

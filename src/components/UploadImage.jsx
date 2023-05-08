@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { auth, db, storage } from '../config/Firebase';
-import { collection, Firestore, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { collection, Firestore, GeoPoint, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { addToImageCollection } from "./UploadToCollection";
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 export const UploadImage = (props) => {
 
     const [imageUpload, setImagseUpload] = useState(null);
     const [imageList, setImageList] = useState([]);
+    //const [user, setUser] = useState({});
     
   
     const imagesCollectionRef = collection(db, "images");
@@ -18,19 +20,32 @@ export const UploadImage = (props) => {
     const showCurrentUser = () => {
 
         const d = new Date();
-        console.log("type of date; ", typeof(d));
+        let formattedDate = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`
+        console.log(formattedDate);
         return auth?.currentUser.uid;
     }
+
+    /*  to be implemented
+    onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+    })*/
 
     const uploadImage = () => {
         if (imageUpload == null) return alert("No image has been selected");
         
-        const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+        let uid = showCurrentUser();
+        const d = new Date();
+        let formattedDate = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`
+
+        const imageRef = ref(storage, `images/${uid}/${formattedDate}/${imageUpload.name + v4()}`);
+
+        let location = new GeoPoint(0, 0);
     
         console.log("uploading..."); // perhaps a spinner/loading bar here?
 
-        let uid = showCurrentUser();
-        addToImageCollection(uid, imageRef.fullPath);
+        //let uid = showCurrentUser();
+        let tag = 1;
+        addToImageCollection(uid, imageRef.fullPath, location, tag);
 
         console.log("imageRef: ", imageRef.fullPath);
         uploadBytes(imageRef, imageUpload).then((snapshot) => {
@@ -41,17 +56,6 @@ export const UploadImage = (props) => {
     }
 
     
-    /*
-    useEffect(() => {
-        listAll(imageListRef).then((response) => {
-            response.items.forEach((item) => {
-                getDownloadURL(item).then((url) => {
-                    setImageList((prev) => [...prev, url]);
-                });
-            });
-        });
-    }, []);
-    */
     return (props.trigger) ? (
         <div className='popup'>
             <div className='popup-inner'>
@@ -65,11 +69,3 @@ export const UploadImage = (props) => {
         </div>
     ) : "";
 };
-
-/*
-
-{imageList.map((url) => {
-                return <img src={url} />
-            })}
-
-*/

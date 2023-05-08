@@ -4,8 +4,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { useState, useEffect } from "react";
 
 import { AccordionHome } from '../components/AccordionHome';
+import { GetImages } from '../services/GetImages';
 
-import home_icon from '../static/images/home_icon.svg';
 import settings_icon from '../static/images/settings_icon.svg';
 import folder_icon from '../static/images/folder_icon.svg';
 
@@ -18,27 +18,28 @@ export const Home = () => {
     setUser(currentUser);
   });
 
-  useEffect(() => {
-    const fetchImages = async () => {
+  const dateObject = new Date();
 
-    try {
-      await getDocs(collection(db, "images"))
-        .then(((querySnapshot) => {
-          const newData = querySnapshot.docs
-            .map((doc) => ({...doc.data(), id:doc.id }));
-          setImages(newData);
-          console.log("fetched data from images collection");
-          //console.log(images, newData);
-      }));
-      
-    } catch (e) {
-      let errorMessage = e.message;
-      console.log(errorMessage);
-    }
-  } 
-    
-    fetchImages();
-  }, []);
+  const day = dateObject.getDate();
+  console.log("day: ", day);
+  let dayStartString = "";
+  let dayEndString = "";
+  if (day < 10) { dayStartString = `0${day}`} else { dayStartString = `${day}`};
+  if (day+1 < 10) { dayEndString = `0${day+1}`} else { dayEndString = `${day+1}`};
+
+  const month = dateObject.getMonth() + 1;
+  let monthString = "";
+  if (month < 10) { monthString = `0${month}`} else { monthString = `${month}`};
+
+  const year = dateObject.getFullYear();
+  let yearString = "";
+  if (year < 10) { yearString = `0${year}`} else { yearString = `${year}`};
+
+  const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`
+  console.log("Start date: ", formattedStartDate);
+
+  const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`
+  console.log("End date: ",formattedEndDate);
 
   return (
     <div>
@@ -50,8 +51,9 @@ export const Home = () => {
       </div>
 
       <div className='app-body'>
-        <p> This is the app body. </p>
+        <hr />
         <a href='./library'><img src={folder_icon} className='lib-img'/><h3 className='lib-desc'>Library</h3> </a>
+        <hr />
 
         <div className='uploads'>
           <h3 className='uploads-msg'> Add your first meal of the day </h3>
@@ -60,24 +62,9 @@ export const Home = () => {
         <div className='uploads'>
           <h3> Yesterday </h3>
           <div>
-            <p>--------------</p>
-             {
-                images?.map((image,i) => {
-                  
-                  const uploadDate = image.upload_date.toDate();
-                  //console.log(image.i); // func not showing the <p> element on hte page
-                  return (
-                    <div key={i}> 
-                      <p>{image.name}</p>
-                      <p>{uploadDate.toString()}</p>
-                      <p> Location </p>
-                      <p>Location: lat: {image.Location.latitude} long: {image.Location.longitude}</p>
-                      <p>{image.id}</p>
-                    </div>
-                  );
-                })
-              }
-            <p>--------------</p>
+            <hr />
+              <GetImages formattedStartDate={formattedStartDate} formattedEndDate={formattedEndDate}/>
+            <hr />
           </div>
         </div>
 
@@ -97,6 +84,27 @@ export const Home = () => {
     );
 
 }
+
+/*
+
+{
+                images?.map((image,i) => {
+                  
+                  const uploadDate = image.upload_date.toDate();
+                  //console.log(image.i); // func not showing the <p> element on hte page
+                  return (
+                    <div key={i}> 
+                      <p>{image.name}</p>
+                      <p>{uploadDate.toString()}</p>
+                      <p> Location </p>
+                      <p>Location: lat: {image.Location.latitude} long: {image.Location.longitude}</p>
+                      <p>{image.id}</p>
+                    </div>
+                  );
+                })
+              }
+
+*/
 
 
 ///////////////////////////////////////Not used///////////////////////////////////////
