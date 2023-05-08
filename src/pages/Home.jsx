@@ -4,7 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { useState, useEffect } from "react";
 
 import { AccordionHome } from '../components/AccordionHome';
-import { GetImages } from '../services/GetImages';
+import { GetImages } from '../components/GetImages';
 
 import settings_icon from '../static/images/settings_icon.svg';
 import folder_icon from '../static/images/folder_icon.svg';
@@ -21,7 +21,6 @@ export const Home = () => {
   const dateObject = new Date();
 
   const day = dateObject.getDate();
-  console.log("day: ", day);
   let dayStartString = "";
   let dayEndString = "";
   if (day < 10) { dayStartString = `0${day}`} else { dayStartString = `${day}`};
@@ -35,11 +34,9 @@ export const Home = () => {
   let yearString = "";
   if (year < 10) { yearString = `0${year}`} else { yearString = `${year}`};
 
-  const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`
-  console.log("Start date: ", formattedStartDate);
-
-  const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`
-  console.log("End date: ",formattedEndDate);
+  const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`;
+  const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`;
+  
 
   return (
     <div>
@@ -61,11 +58,11 @@ export const Home = () => {
 
         <div className='uploads'>
           <h3> Yesterday </h3>
-          <div>
-            <hr />
+          <hr />
+          <div className='images-flex-container'>
               <GetImages formattedStartDate={formattedStartDate} formattedEndDate={formattedEndDate}/>
-            <hr />
           </div>
+          <hr />
         </div>
 
         <div className='uploads'>

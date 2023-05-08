@@ -114,3 +114,22 @@ button {
   text-decoration: underline;
 }
 
+.images-flex-container {
+  width: 200px;
+  height: 200px;
+  height: auto;
+  margin: 3px;
+  padding: 3px;
+  border: red;
+  border-radius: 2rem;
+}
+
+.images-container {
+  border: green;
+  display: flex;
+}
+
+.home-page-images {
+  max-width: 100%;
+  height: auto;
+}
