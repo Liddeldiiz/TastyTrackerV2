@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { db, storage, auth } from '../config/Firebase';
-import { collection, getDocs, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, getDocs, query, where, onSnapshot, DocumentSnapshot } from 'firebase/firestore';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { onAuthStateChanged } from 'firebase/auth';
 
@@ -12,6 +12,7 @@ export const GetImages = ( props ) => {
   const [images, setImages] = useState();
   const [imageList, setImageList] = useState([]);
   const [user, setUser] = useState({});
+  const [loader, setLoader] = useState(false);
 
   let tempUid = "";
   async function getUser() {
@@ -23,7 +24,8 @@ export const GetImages = ( props ) => {
   
 
   useEffect(() => {
-        
+    setLoader(true);
+    console.log("loader: ", loader);
     async function getStorageItems() {
 
       let tempUid = "";
@@ -41,7 +43,7 @@ export const GetImages = ( props ) => {
         console.log("End: ", end);
         let uid;
         uid = tempUid;
-        console.log("uid: ", uid);
+        console.log("uid: ", tempUid);
 
 
         const queryConstraints = []
@@ -59,6 +61,7 @@ export const GetImages = ( props ) => {
         
         
         // real time collection data
+        if (!loader) { console.log("loader: ", loader);return "";} else {
         onSnapshot(q, (snapshot) => {
           snapshot.docs.forEach((doc) => {
             imagesFromDb.push({ ...doc.data(), id: doc.id })
@@ -82,6 +85,7 @@ export const GetImages = ( props ) => {
                 getDownloadURL(item).then((url) => {
                   console.log("url: ", url);
                     setImageList((prev) => [...prev, url]);
+                    setLoader(false);
                 });
             });
           });
@@ -90,7 +94,9 @@ export const GetImages = ( props ) => {
         }, (error) => {
           console.log("error message from onSnapshot: ", error);
         })
+      }    
       });
+    
     }
         
     if (props.formattedStartDate === undefined || props.formattedEndDate === undefined) { return <></> }
@@ -100,6 +106,7 @@ export const GetImages = ( props ) => {
       try {
         console.log('props.formattedStartDate is: ', props.formattedStartDate);
         console.log('props.formattedEndDate is: ', props.formattedEndDate);
+        //console.log('props.userId is: ', props.userId);
         getStorageItems();
       } catch(error) {
         console.log("try catch error: ", error.message);

@@ -4,7 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { useState, useEffect } from "react";
 
 import { AccordionHome } from '../components/AccordionHome';
-import { GetImages } from '../components/GetImages';
+import { GetImages } from '../components/GetImagesV2';
 
 import settings_icon from '../static/images/settings_icon.svg';
 import folder_icon from '../static/images/folder_icon.svg';
