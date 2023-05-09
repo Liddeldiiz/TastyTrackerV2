@@ -29,9 +29,9 @@ export const Home = () => {
   const twoDaysBeforeDateObject = new Date();
   twoDaysBeforeDateObject.setDate(dateObject.getDate() - 2);
 
-  console.log("dateObject: ", dateObject);
-  console.log("dayBeforeDateObject: ", dayBeforeDateObject);
-  console.log("twoDaysBeforeDateObject: ", twoDaysBeforeDateObject);
+  //console.log("dateObject: ", dateObject);
+  //console.log("dayBeforeDateObject: ", dayBeforeDateObject);
+  //console.log("twoDaysBeforeDateObject: ", twoDaysBeforeDateObject);
 
   const formatDate = (dateObject) => {
 
@@ -75,7 +75,7 @@ export const Home = () => {
 
         <div className='uploads'>
           <div className='images-flex-container'>
-            <h3 className='uploads-msg'> Add your first meal of the day </h3>
+            <p>{box1[0]}</p>
             <GetImages formattedStartDate={box1[0]} formattedEndDate={box1[1]}/>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { UploadImage } from './UploadImage.jsx';
 import { Popup } from './Popup.jsx';
@@ -10,15 +11,24 @@ import plus_icon from '../static/images/plus_icon.svg';
 import minus_icon from '../static/images/minus_icon.png';
 
 export const AccordionHome = () => {
+    const navigate = useNavigate();
+
     const [accordion, setActiveAccordion] = useState(false);
     const [buttonPopup, setButtonPopup] = useState(false);
+    const [imageUpload, setImagesUpload] = useState(null);
 
     function toggleAccordion() {
         setActiveAccordion(!accordion);
     }
 
-    function selectFromLib() {
-        return (<div><UploadImage /></div>);
+    function onSelectedImage( event ) {
+        
+        setImagesUpload(event.target.files[0]);
+        let tempImg =  event.target.files[0]
+        console.log("event: ", event.target.files[0]);
+        console.log("tempImg: ", tempImg);
+        navigate("/addImage", {state:{image: tempImg}});
+        
     }
 
     return(
@@ -40,15 +50,10 @@ export const AccordionHome = () => {
                     <div className={accordion ? "active" : "inactive"}>
                         <div><button> Open Camera </button></div>
                         <div>
-                            <button onClick={selectFromLib}> 
-                            Select from library 
-                            </button>
-                            <button onClick={() => setButtonPopup(true)}>Open popup</button>
-
-                            <UploadImage trigger={buttonPopup} setTrigger={() => setButtonPopup()}>
-                                <h3 className='popup-inner-text-h3'>My popup</h3>
-                                <p className='popup-inner-text-p'>This is my button triggered popup</p>
-                            </UploadImage>
+                            <button onclick="document.getElementById('getFile').click()">Select Image</button>
+                            <label for="file" className="btn">Select Image</label>
+                            <input id="getFile" type="file" onChange={(event) => {onSelectedImage(event)}} accept=".jpg, .jpeg, .png"/>
+                            
                         </div>
                     </div>
                 </div>
@@ -59,3 +64,10 @@ export const AccordionHome = () => {
 }
 
 // grafika wektorowa
+
+/* 
+<UploadImage trigger={buttonPopup} setTrigger={() => setButtonPopup()}>
+                                <h3 className='popup-inner-text-h3'>My popup</h3>
+                                <p className='popup-inner-text-p'>This is my button triggered popup</p>
+                            </UploadImage>
+*/

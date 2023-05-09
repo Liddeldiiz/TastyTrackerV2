@@ -15,6 +15,7 @@ export const GetImages = ( props ) => {
   const [images, setImages] = useState();
   const [imageList, setImageList] = useState([]);
   const [imageListEmpty, setImageListEmpty] = useState(true);
+  const [isToday, setToday] = useState(false);
   const [user, setUser] = useState({});
   const [loader, setLoader] = useState(false);
   
@@ -41,16 +42,15 @@ export const GetImages = ( props ) => {
     async function getStorageItems() {
       setLoader(true);
       console.log("loader: ", loader);
+      
         // collection reference
         const colRef = collection(db, 'images');
 
         // setiing up the constraints for the query
         let queryConstraints = await setupConstraints();
-        //console.log("queryConstraints: ", queryConstraints);
         
         // query
         const q = query(colRef, ...queryConstraints);
-        //console.log("query: ", q);
 
         const imagesFromDb = [];
         // real time collection data
@@ -61,19 +61,26 @@ export const GetImages = ( props ) => {
           setImages(imagesFromDb);
           console.log("imagesFromDb: ", imagesFromDb)
           if (imagesFromDb.length === 0) {
+            console.log("imagesFromDb is: ", imagesFromDb.length)
             setImageListEmpty(true);
+            let propsDate = new Date(props.formattedStartDate);
+            let propsDateDay = propsDate.getDate();
+            console.log("propsDateDay: ", propsDateDay);
+            let dateObject = new Date();
+            let dateObjectDay = dateObject.getDate();
+            console.log("dateObjectDay: ", dateObjectDay);
+            if (propsDateDay === dateObjectDay) {
+              console.log(propsDateDay, "===", dateObjectDay)
+              setToday(true);
+              console.log("isToday: ", isToday);
+            }
             
           } else {
             setImageListEmpty(false);
             const split = imagesFromDb[0].image_reference_path.split('/');
-            //console.log("split: ", split);
             const img_usr_ref = split[1];
-            //console.log("img_usr_ref: ", img_usr_ref);
             const img_upload_date = split[2];
-            //console.log("img_upload_date: ", img_upload_date);
             const imageListRef = ref(storage, `images/${img_usr_ref}/${img_upload_date}/`);
-            //console.log("imageListRef: ", imageListRef);
-            //console.log(`downloading pictures for ${img_upload_date}`);
             listAll(imageListRef).then((response) => {
               response.items.forEach((item) => {
                   getDownloadURL(item).then((url) => {
@@ -85,15 +92,12 @@ export const GetImages = ( props ) => {
                     console.log("url: ", url);
                       setImageList((prev) => [...prev, url]);
                       setLoader(false);});});});
-            console.log(imageList);
           }
         });
     }
     if (props.formattedStartDate === undefined || props.formattedEndDate === undefined) { return <></> }
     else {
       try {
-        console.log('props.formattedStartDate is: ', props.formattedStartDate);
-        console.log('props.formattedEndDate is: ', props.formattedEndDate);
         getStorageItems();
       } catch(error) {
         console.log("try catch error: ", error.message);
@@ -105,11 +109,20 @@ export const GetImages = ( props ) => {
     <a href='asdf'>
       <div className='images-container'>
         {imageListEmpty ? (
-        <>
-          <h3> 
-            No images were added that day 
-          </h3>
-        </>) : 
+          isToday ? (
+            <>
+              <h3> 
+                Add your first meal of the day 
+              </h3>
+            </>
+            ) : (
+            <>
+              <h3> 
+                No meals were added that day 
+              </h3>
+            </>
+            )
+        ) : 
         imageList.map((url) => {
           return <img src={url} alt='img' className='home-page-images'/>
         })}

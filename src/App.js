@@ -6,6 +6,7 @@ import { Register } from "./pages/Register";
 import { Home } from './pages/Home';
 import { Settings } from './pages/Settings';
 import { Library } from './pages/Library';
+import { AddImage } from './pages/AddImage';
 import { NoPage } from './pages/NoPage';
 
 import './static/css/App.css';
@@ -20,6 +21,7 @@ function App() {
             <Route path="/register" element={<Register />}/>
             <Route path="/settings" element={<Settings />} />
             <Route path="/library" element={<Library />} />
+            <Route path="/addImage" element={<AddImage />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
         </Router>
