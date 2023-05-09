@@ -19,24 +19,45 @@ export const Home = () => {
   });
 
   const dateObject = new Date();
+  const currentDay = dateObject.getDate();
+  const currentMonth = dateObject.getMonth();
+  const currentYear = dateObject.getFullYear();
 
-  const day = dateObject.getDate();
-  let dayStartString = "";
-  let dayEndString = "";
-  if (day < 10) { dayStartString = `0${day}`} else { dayStartString = `${day}`};
-  if (day+1 < 10) { dayEndString = `0${day+1}`} else { dayEndString = `${day+1}`};
+  const dayBeforeDateObject = new Date();
+  dayBeforeDateObject.setDate(dateObject.getDate() - 1);
 
-  const month = dateObject.getMonth() + 1;
-  let monthString = "";
-  if (month < 10) { monthString = `0${month}`} else { monthString = `${month}`};
+  const twoDaysBeforeDateObject = new Date();
+  twoDaysBeforeDateObject.setDate(dateObject.getDate() - 2);
 
-  const year = dateObject.getFullYear();
-  let yearString = "";
-  if (year < 10) { yearString = `0${year}`} else { yearString = `${year}`};
+  console.log("dateObject: ", dateObject);
+  console.log("dayBeforeDateObject: ", dayBeforeDateObject);
+  console.log("twoDaysBeforeDateObject: ", twoDaysBeforeDateObject);
 
-  const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`;
-  const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`;
+  const formatDate = (dateObject) => {
+
+    const day = dateObject.getDate();
+    let dayStartString = "";
+    let dayEndString = "";
+    if (day < 10) { dayStartString = `0${day}`} else { dayStartString = `${day}`};
+    if (day+1 < 10) { dayEndString = `0${day+1}`} else { dayEndString = `${day+1}`};
+
+    const month = dateObject.getMonth() + 1;
+    let monthString = "";
+    if (month < 10) { monthString = `0${month}`} else { monthString = `${month}`};
+
+    const year = dateObject.getFullYear();
+    let yearString = "";
+    if (year < 10) { yearString = `0${year}`} else { yearString = `${year}`};
+
+    const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`;
+    const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`;
+    return [formattedStartDate, formattedEndDate];
+  }
   
+  const box1 = formatDate(dateObject);
+  const box2 = formatDate(dayBeforeDateObject);
+  const box3 = formatDate(twoDaysBeforeDateObject);
+  /*  */
 
   return (
     <div>
@@ -53,20 +74,29 @@ export const Home = () => {
         <hr />
 
         <div className='uploads'>
-          <h3 className='uploads-msg'> Add your first meal of the day </h3>
+          <div className='images-flex-container'>
+            <h3 className='uploads-msg'> Add your first meal of the day </h3>
+            <GetImages formattedStartDate={box1[0]} formattedEndDate={box1[1]}/>
+          </div>
         </div>
 
         <div className='uploads'>
-          <h3> Yesterday </h3>
           <hr />
           <div className='images-flex-container'>
-              <GetImages formattedStartDate={formattedStartDate} formattedEndDate={formattedEndDate}/>
+          <p>{box2[0]}</p>
+            <GetImages formattedStartDate={box2[0]} formattedEndDate={box2[1]}/>
+
           </div>
           <hr />
         </div>
 
         <div className='uploads'>
-          <h3> images </h3>
+          <div className='images-flex-container'>
+            <p>{box3[0]}</p>
+            <GetImages formattedStartDate={box3[0]} formattedEndDate={box3[1]}/>
+
+          </div>
+          <hr />
         </div>
         
       </div>

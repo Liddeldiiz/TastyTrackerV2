@@ -14,6 +14,7 @@ export const GetImages = ( props ) => {
 
   const [images, setImages] = useState();
   const [imageList, setImageList] = useState([]);
+  const [imageListEmpty, setImageListEmpty] = useState(true);
   const [user, setUser] = useState({});
   const [loader, setLoader] = useState(false);
   
@@ -58,28 +59,34 @@ export const GetImages = ( props ) => {
             imagesFromDb.push({ ...doc.data(), id: doc.id });
           });
           setImages(imagesFromDb);
-          
-          const split = imagesFromDb[0].image_reference_path.split('/');
-          //console.log("split: ", split);
-          const img_usr_ref = split[1];
-          //console.log("img_usr_ref: ", img_usr_ref);
-          const img_upload_date = split[2];
-          //console.log("img_upload_date: ", img_upload_date);
-          const imageListRef = ref(storage, `images/${img_usr_ref}/${img_upload_date}/`);
-          //console.log("imageListRef: ", imageListRef);
-          //console.log(`downloading pictures for ${img_upload_date}`);
-          listAll(imageListRef).then((response) => {
-            response.items.forEach((item) => {
-                getDownloadURL(item).then((url) => {
-                  for(let i = 0; i < imageList.length; i++) {
-                    if (imageList[i] === url) { // this should prevent downloading the same images twice
-                      return;
+          console.log("imagesFromDb: ", imagesFromDb)
+          if (imagesFromDb.length === 0) {
+            setImageListEmpty(true);
+            
+          } else {
+            setImageListEmpty(false);
+            const split = imagesFromDb[0].image_reference_path.split('/');
+            //console.log("split: ", split);
+            const img_usr_ref = split[1];
+            //console.log("img_usr_ref: ", img_usr_ref);
+            const img_upload_date = split[2];
+            //console.log("img_upload_date: ", img_upload_date);
+            const imageListRef = ref(storage, `images/${img_usr_ref}/${img_upload_date}/`);
+            //console.log("imageListRef: ", imageListRef);
+            //console.log(`downloading pictures for ${img_upload_date}`);
+            listAll(imageListRef).then((response) => {
+              response.items.forEach((item) => {
+                  getDownloadURL(item).then((url) => {
+                    for(let i = 0; i < imageList.length; i++) {
+                      if (imageList[i] === url) { // this should prevent downloading the same images twice
+                        return;
+                      }
                     }
-                  }
-                  console.log("url: ", url);
-                    setImageList((prev) => [...prev, url]);
-                    setLoader(false);});});});
-          console.log(imageList);
+                    console.log("url: ", url);
+                      setImageList((prev) => [...prev, url]);
+                      setLoader(false);});});});
+            console.log(imageList);
+          }
         });
     }
     if (props.formattedStartDate === undefined || props.formattedEndDate === undefined) { return <></> }
@@ -97,7 +104,13 @@ export const GetImages = ( props ) => {
   return (
     <a href='asdf'>
       <div className='images-container'>
-        {imageList.map((url) => {
+        {imageListEmpty ? (
+        <>
+          <h3> 
+            No images were added that day 
+          </h3>
+        </>) : 
+        imageList.map((url) => {
           return <img src={url} alt='img' className='home-page-images'/>
         })}
       </div>
