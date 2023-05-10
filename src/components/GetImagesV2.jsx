@@ -19,25 +19,6 @@ export const GetImages = ( props ) => {
   const [user, setUser] = useState({});
   const [loader, setLoader] = useState(false);
   
-  onAuthStateChanged(auth, (currentUser) => {  
-    console.log("current user uid: ", user.uid);
-    setUser(currentUser);
-  });
-  
-
-  const setupConstraints = async () => {    
-
-    let start = new Date(props.formattedStartDate);
-    let end = new Date(props.formattedEndDate);
-    
-    const queryConstraints = []
-
-    queryConstraints.push(where('upload_date', '>=', start));
-    queryConstraints.push(where('upload_date', '<=', end));
-    queryConstraints.push(where('user_id', '==', user.uid));
-    return queryConstraints;
-  }  
-  
   useEffect(() => {
     async function getStorageItems() {
       setLoader(true);
@@ -104,6 +85,29 @@ export const GetImages = ( props ) => {
       };
     }
   }, [props.formattedStartDate, props.formattedEndDate, user]);
+
+
+  // perhaps useContext could solve this issue of infinite onAuthStateChanged
+  onAuthStateChanged(auth, (currentUser) => {  
+    console.log("current user uid: ", user.uid);
+    setUser(currentUser);
+  });
+  
+
+  const setupConstraints = async () => {    
+
+    let start = new Date(props.formattedStartDate);
+    let end = new Date(props.formattedEndDate);
+    
+    const queryConstraints = []
+
+    queryConstraints.push(where('upload_date', '>=', start));
+    queryConstraints.push(where('upload_date', '<=', end));
+    queryConstraints.push(where('user_id', '==', user.uid));
+    return queryConstraints;
+  }  
+  
+  
 
   return (
     <a href='asdf'>

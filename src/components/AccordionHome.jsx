@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { UploadImage } from './UploadImage.jsx';
 import { Popup } from './Popup.jsx';
 
 

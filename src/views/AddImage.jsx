@@ -1,9 +1,10 @@
 import { useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { GeoPoint } from 'firebase/firestore';
 
 import { GetTags } from '../components/GetTags';
-import { UploadImage } from '../components/UploadImage';
+import { uploadImage } from '../components/UploadImageV2';
 import { GeoLocation } from '../components/GeoLocation';
 
 import Button from 'react-bootstrap/Button';
@@ -13,6 +14,8 @@ import home_icon from '../static/images/home_icon.svg';
 import '../static/css/App.css';
 
 export const AddImage = () => {
+
+    const navigate = useNavigate();
 
     const location = useLocation(); // location for file
     const [imageFile, setImageFile] = useState();
@@ -99,9 +102,13 @@ export const AddImage = () => {
     }
 
     const handleSubmit = async (e) => {
+        console.log("handleSubmit"); // here is an uncaught (in promise) error: invalid hook call
         e.preventDefault();
+        //console.log("image: ", imageFile); -- not null
         // upload the picture to the db with the gathered information
         // I need to access the functions defined in UploadImage from here
+        uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note);
+        navigate('/');
     }
 
     return(
@@ -116,7 +123,7 @@ export const AddImage = () => {
                 </p>
             </div>
             <hr />
-            <form className='upload-image-form' onSubmit={handleSubmit}>
+            <form className='upload-image-form' onSubmit={addImage}>
             <div className='images-flex-container'>
             {isLoading ? (<><h3>Loading</h3></>) : imgElement}
                 
@@ -141,7 +148,7 @@ export const AddImage = () => {
                     
                 </div>
                 <div className='div-upload-component'>
-                    <button type="submit" onClick={addImage}>Add</button>
+                    <button type="submit">Add</button>
                     
                 </div>
             </div>

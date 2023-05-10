@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { auth, db, storage } from '../config/Firebase';
+import { auth, db, storage } from '../../config/Firebase';
 import { collection, Firestore, GeoPoint, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
-import { addToImageCollection } from "./UploadToCollection";
+import { addToImageCollection } from "../UploadToCollection";
 import { onAuthStateChanged } from 'firebase/auth';
 
 

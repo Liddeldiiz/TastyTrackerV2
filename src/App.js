@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { Login } from './pages/Login';
-import { Register } from "./pages/Register";
-import { Home } from './pages/Home';
-import { Settings } from './pages/Settings';
-import { Library } from './pages/Library';
-import { AddImage } from './pages/AddImage';
-import { NoPage } from './pages/NoPage';
+import { Login } from './views/Login';
+import { Register } from "./views/Register";
+import { Home } from './views/Home';
+import { Settings } from './views/Settings';
+import { Library } from './views/Library';
+import { AddImage } from './views/AddImage';
+import { NoPage } from './views/NoPage';
 
 import './static/css/App.css';
 
