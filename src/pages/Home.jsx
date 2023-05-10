@@ -33,6 +33,7 @@ export const Home = () => {
   //console.log("dayBeforeDateObject: ", dayBeforeDateObject);
   //console.log("twoDaysBeforeDateObject: ", twoDaysBeforeDateObject);
 
+  
   const formatDate = (dateObject) => {
 
     const day = dateObject.getDate();

@@ -50,10 +50,10 @@ export const AccordionHome = () => {
                     <div className={accordion ? "active" : "inactive"}>
                         <div><button> Open Camera </button></div>
                         <div>
-                            <button onclick="document.getElementById('getFile').click()">Select Image</button>
-                            <label for="file" className="btn">Select Image</label>
-                            <input id="getFile" type="file" onChange={(event) => {onSelectedImage(event)}} accept=".jpg, .jpeg, .png"/>
-                            
+                            <label className="select-image-input">
+                                <input id="getFile" type="file" onChange={(event) => {onSelectedImage(event)}} accept=".jpg, .jpeg, .png"/>
+                                Select Image
+                            </label>
                         </div>
                     </div>
                 </div>
