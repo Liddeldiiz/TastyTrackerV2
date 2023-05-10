@@ -49,11 +49,12 @@ export const Login = (props) => {
         }
       };
 
-    const signInWithFacebook = ()=>{
+    const signInWithFacebook = async ()=>{
         const provider = new FacebookAuthProvider();
-        signInWithPopup(auth, provider)
+        await signInWithPopup(auth, provider)
         .then((re)=> {
             console.log(re);
+            navigate('/');
         })
         .catch((err)=>{
             console.log(err.message);
