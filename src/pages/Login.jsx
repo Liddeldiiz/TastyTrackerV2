@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { auth, googleProvider } from '../config/Firebase';
+import { auth, googleProvider} from '../config/Firebase';
 import { 
         signInWithEmailAndPassword,
-        signInWithPopup 
+        FacebookAuthProvider,
+        signInWithPopup
     } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
@@ -47,7 +48,19 @@ export const Login = (props) => {
             console.error(err);
         }
       };
-  
+
+    const signInWithFacebook = ()=>{
+        const provider = new FacebookAuthProvider();
+        signInWithPopup(auth, provider)
+        .then((re)=> {
+            console.log(re);
+        })
+        .catch((err)=>{
+            console.log(err.message);
+        })
+    };
+
+
       const redirectLogin = async => {
         navigate("/login");
     }
@@ -89,6 +102,7 @@ export const Login = (props) => {
         </form>
         <button onClick={redirectSignIn}>Sign in</button>
         <button onClick={logInWithGoogle}>Log in with Google</button>
+        <button onClick={signInWithFacebook}>Sign in with Facebook</button>
         </div>
     )
 }
