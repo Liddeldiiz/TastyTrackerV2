@@ -32,6 +32,18 @@ export const Register = (props) => {
       }
     }
 
+    const addUserIdForPopup = async () => {
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          username: "",
+          userId: auth?.currentUser.uid
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!email) {
@@ -70,6 +82,9 @@ export const Register = (props) => {
       try {
           await signInWithPopup(auth, googleProvider).then((userCredential) => {
             const user = userCredential.user;
+
+            addUserIdForPopup();
+            
             setLoading(false);
 
             navigate('/');
