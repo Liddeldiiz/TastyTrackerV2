@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { Login } from './views/Login';
@@ -9,21 +9,32 @@ import { Library } from './views/Library';
 import { AddImage } from './views/AddImage';
 import { NoPage } from './views/NoPage';
 
+import { UserContext } from './components/UserContext';
+
 import './static/css/App.css';
 
 function App() {
+
+  const [userUid, setUserUid] = useState();
+  const pullUserCredentials = (data) => {
+    setUserUid(data);
+  }
     return (
       <div className='App'>
         <Router>
+        <UserContext.Provider value={userUid}>
           <Routes>
+            
             <Route path="/" element={<Home />}/>
-            <Route path="/login" element={<Login />}/>
+            <Route path="/login" element={<Login func={pullUserCredentials}/>}/>
             <Route path="/register" element={<Register />}/>
             <Route path="/settings" element={<Settings />} />
             <Route path="/library" element={<Library />} />
             <Route path="/addImage" element={<AddImage />} />
             <Route path="*" element={<NoPage />} />
+            
           </Routes>
+          </UserContext.Provider>
         </Router>
       </div>
     );

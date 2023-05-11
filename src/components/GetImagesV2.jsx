@@ -20,6 +20,12 @@ export const GetImages = ( props ) => {
   const [loader, setLoader] = useState(false);
   
   useEffect(() => {
+    // perhaps useContext could solve this issue of infinite onAuthStateChanged
+    onAuthStateChanged(auth, (currentUser) => {  
+      console.log("current user uid: ", user.uid);
+      setUser(currentUser);
+    });
+
     async function getStorageItems() {
       setLoader(true);
       console.log("loader: ", loader);
@@ -84,14 +90,10 @@ export const GetImages = ( props ) => {
         console.log("try catch error: ", error.message);
       };
     }
-  }, [props.formattedStartDate, props.formattedEndDate, user]);
+  }, [props.formattedStartDate, props.formattedEndDate, user, imageList]);
 
 
-  // perhaps useContext could solve this issue of infinite onAuthStateChanged
-  onAuthStateChanged(auth, (currentUser) => {  
-    console.log("current user uid: ", user.uid);
-    setUser(currentUser);
-  });
+  
   
 
   const setupConstraints = async () => {    

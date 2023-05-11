@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { auth, googleProvider} from '../config/Firebase';
 import { 
         signInWithEmailAndPassword,
@@ -17,6 +17,7 @@ export const Login = (props) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const UserContext = createContext();
     const [user, setUser] = useState({});
     const [isLoading, setLoading] = useState(false);
 
@@ -25,7 +26,8 @@ export const Login = (props) => {
         setLoading(true);
         try {
             await signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-                const user = userCredential.user;
+                let user = userCredential.user;
+                console.log(user.uid);
                 setLoading(false);
                 navigate("/");
             })

@@ -14,7 +14,10 @@ export const Home = () => {
   // const [image, setImage] = useState("") should we pass pictures as string?
   const [images, setImages] = useState([])
 
+  let userUid;
   onAuthStateChanged(auth, (currentUser) => {
+    userUid = currentUser.uid;
+    console.log("current user: ", currentUser.uid);
     setUser(currentUser);
   });
 

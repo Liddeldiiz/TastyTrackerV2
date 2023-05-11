@@ -18,7 +18,8 @@ export const AddImage = () => {
     const navigate = useNavigate();
 
     const location = useLocation(); // location for file
-    const [imageFile, setImageFile] = useState();
+    const [imageFile, setImageFile] = useState(); // to pass to the db
+    const [imageRender, setImageRender] = useState(); // only for rendering
     const [isLoading, setLoading] = useState(false);
     const [imgElement, setImgElement] = useState();
 
@@ -35,20 +36,27 @@ export const AddImage = () => {
     useEffect(() => {
 
         setLoading(true);
-
         previewFile();
-       
-        setLoading(false);
-
+        
+        if(imageFile !== undefined) {
+            setLoading(false);
+            console.log("image loaded")
+        } else {
+            
+            console.log("still waiting");
+        }
+        console.log("imageFile: " ,imageFile)
         setGeoLocation(geoLocationVar);
 
         setTimeStamp(d);
         
-    }, [imageFile, location.state.image]);
+    }, [imageRender]);
 
 
     function previewFile() {
-        const file = location.state.image;
+    
+        const file = location.state?.image;
+        
 
         function readAndPreview(file) {
             const reader = new FileReader();
@@ -56,25 +64,28 @@ export const AddImage = () => {
             reader.addEventListener(
                 "load",
                 () => {
-                    if (imageFile !== undefined) {
-                        setImgElement(<img src={imageFile.src} className='upload-image'></img>)
+                    if (imageRender !== undefined) {
+                        setImgElement(<img src={imageRender.src} className='upload-image'></img>)
                         return;
                     }
                     const image = new Image();
+                    
                     image.height = 100;
                     image.title = file.name;
                     image.src = reader.result;
                     imageArr.push(image);
-                    setImageFile(image);
-                    setLoading(false);
+                    setImageRender(image);
                 },
                 false
             );
+            console.log(imageRender);
             reader.readAsDataURL(file);
+            
         }
 
         if (file) {
             readAndPreview(file);
+            setImageFile(file);
         }
     }
 
@@ -123,35 +134,36 @@ export const AddImage = () => {
                 </p>
             </div>
             <hr />
-            <form className='upload-image-form' onSubmit={addImage}>
-            <div className='images-flex-container'>
-            {isLoading ? (<><h3>Loading</h3></>) : imgElement}
-                
-            </div>
-            <div className='div-get-tags'>
-                <GetTags func={pullDataFromTags}/>
-            </div>
-            <div className='div-note'>
-                <input 
-                onChange={(e) => setNote(e.target.value)}
-                type='text' 
-                placeholder='your note'/>
-            </div>
-            <div className='div-footer'>
-                <div className='div-timestamp'>
-                    Timestamp
-                    <br />
+            <form className='upload-image-form' onSubmit={handleSubmit}>
+                <div className='images-flex-container'>
+                {isLoading ? (<><h3>Loading</h3></>) : imgElement}
+                    
+                </div>
+                <div className='div-get-tags'>
+                    <GetTags func={pullDataFromTags}/>
+                </div>
+                <div className='div-note'>
+                    <input 
+                    onChange={(e) => setNote(e.target.value)}
+                    type='text' 
+                    placeholder='your note'/>
+                </div>
+                <div className='div-footer'>
+                    <div className='div-timestamp'>
+                        Timestamp
+                        <br />
+                            
+                    </div>
+                    <div className='div-location'>
+                        Location:
                         
+                    </div>
+                    <div className='div-upload-component'>
+                        {}
+                        <button type="submit">Add</button>
+                        
+                    </div>
                 </div>
-                <div className='div-location'>
-                    Location:
-                    
-                </div>
-                <div className='div-upload-component'>
-                    <button type="submit">Add</button>
-                    
-                </div>
-            </div>
             </form>
         </div>
     </>)
