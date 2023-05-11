@@ -7,6 +7,7 @@ import { Home } from './views/Home';
 import { Settings } from './views/Settings';
 import { Library } from './views/Library';
 import { AddImage } from './views/AddImage';
+import { ChangeUserName } from './views/ChangeUserName';
 import { NoPage } from './views/NoPage';
 
 import { UserContext } from './components/UserContext';
@@ -31,6 +32,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/library" element={<Library />} />
             <Route path="/addImage" element={<AddImage />} />
+            <Route path="changeUserName" element={<ChangeUserName />} />
             <Route path="*" element={<NoPage />} />
             
           </Routes>

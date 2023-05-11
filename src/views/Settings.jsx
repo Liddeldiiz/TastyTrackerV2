@@ -15,6 +15,8 @@ import { Logout } from '../components/Logout';
 import home_icon from '../static/images/home_icon.svg';
 import settings_icon from '../static/images/settings_icon.svg';
 
+import Button from 'react-bootstrap/Button';
+
 export const Settings = () => {
     const [user, setUser] = useState({});
 
@@ -39,11 +41,7 @@ export const Settings = () => {
 
           <div className='user-settings'>
 
-            <input 
-            type='text'
-            placeholder="Username..."
-            id='username'
-            name='username'/>
+            <a href="./ChangeUserName"><Button>Change Username</Button></a>
 
             <input 
             type='email'
