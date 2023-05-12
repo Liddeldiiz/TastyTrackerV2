@@ -38,6 +38,15 @@ export function uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note
 
     console.log("imageRef: ", imageRef.fullPath);
     uploadBytes(imageRef, imageFile).then(() => {
+        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+        
+        if (navigator.vibrate) {
+            console.log("This should vibrate");
+            navigator.vibrate([200, 100, 200]);
+        } else {
+            console.log("Upload Finished vibrate signal not available on this device");
+        }
+        console.log("image uploaded");
         alert("image uploaded");
     });
     return console.log("upload done");
