@@ -21,6 +21,7 @@ export const Camera = () => {
 
         const pictureSrc = webcamRef.current.getScreenshot();
         setPicture(pictureSrc);
+        
     }, [])
 
     const handleClick = React.useCallback(() => {
@@ -35,6 +36,20 @@ export const Camera = () => {
 
     const homeButton = () => {
         navigate('/');
+    }
+
+    const confirmImage = () => {
+        const url = picture;
+        fetch(url)
+        .then(res => res.blob())
+        .then(blob => {
+            const file = new File([blob], "File name", { type: "image/png"})
+            console.log("File: ", file);
+            console.log("type of file: ", typeof(file));
+            navigate("/addImage", {state:{image: file}});
+        })
+        console.log("picture: ", picture);
+        console.log("type of picture: ", typeof(picture));
     }
     return (
     <div>
@@ -55,6 +70,7 @@ export const Camera = () => {
     </div>
     <div>
       {picture != '' ? (
+        <>
         <button
           onClick={(e) => {
             e.preventDefault()
@@ -64,6 +80,8 @@ export const Camera = () => {
         >
           Retake
         </button>
+        <Button onClick={confirmImage}>Confirm</Button>
+        </>
       ) : (
         <>
         <button

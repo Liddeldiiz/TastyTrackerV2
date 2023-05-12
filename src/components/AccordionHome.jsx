@@ -55,7 +55,8 @@ export const AccordionHome = () => {
                         )}
                     </div>
                     <div className={accordion ? "active" : "inactive"}>
-                        <div><a href="./camera"> Open Camera </a></div>
+                        <div><a href="./camera"> Open Camera page </a></div>
+                        <div><label><input type="file" accept="image/*" capture="camera"/>Open camera</label></div>
                         <div>
                             <label className="select-image-input">
                                 <input id="getFile" type="file" onChange={(event) => {onSelectedImage(event)}} accept=".jpg, .jpeg, .png"/>
