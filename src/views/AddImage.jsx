@@ -28,8 +28,12 @@ export const AddImage = () => {
     const [ geoLocation, setGeoLocation ] = useState(); // location of user
     const [ note, setNote ] = useState("");
 
+
+
+    var latitude;
+    var longitude;
+
     const imageArr = [];
-    let geoLocationVar = new GeoPoint(0, 0);
     const d = new Date();
 
     //////// useEffect is triggered by any change in the imageFile and location.state.image ////////
@@ -46,12 +50,27 @@ export const AddImage = () => {
             console.log("still waiting");
         }
         console.log("imageFile: " ,imageFile)
-        setGeoLocation(geoLocationVar);
+        //setGeoLocation(geoLocationVar);
 
         setTimeStamp(d);
         
     }, [imageRender]);
 
+    function componentDidMount() {
+        if ("geolocation" in navigator) {
+          console.log("Available");
+          navigator.geolocation.getCurrentPosition(function(position) {
+            console.log("Latitude is: ", position.coords.latitude);
+            latitude = position.coords.latitude;
+            console.log("Longitude is: ", position.coords.longitude);
+            longitude = position.coords.longitude;
+          })
+        } else {
+          console.log("Not Available");
+        }
+      }
+      componentDidMount();
+      
 
     function previewFile() {
     
@@ -115,10 +134,11 @@ export const AddImage = () => {
     const handleSubmit = async (e) => {
         console.log("handleSubmit"); // here is an uncaught (in promise) error: invalid hook call
         e.preventDefault();
+        let geoLocationVar = new GeoPoint(latitude, longitude);
         //console.log("image: ", imageFile); -- not null
         // upload the picture to the db with the gathered information
         // I need to access the functions defined in UploadImage from here
-        uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note);
+        uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
         navigate('/');
     }
 

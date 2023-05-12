@@ -38,16 +38,18 @@ export const Settings = () => {
       { value: 60, label: '60 min'},
     ]
 
-    var tempUid;
+    
 
     onAuthStateChanged(auth, (currentUser) => {
-      tempUid = currentUser.uid;
+      
               setUser(currentUser);
     });
     
     useEffect(() => {
       getDataFromDb();
     }, [])
+    
+  
 
     const queryResults = [];
     const getDataFromDb = () => {
