@@ -16,6 +16,14 @@ export const AccordionHome = () => {
     const [buttonPopup, setButtonPopup] = useState(false);
     const [imageUpload, setImagesUpload] = useState(null);
 
+    function componentDidMount() {
+        if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+            console.log("Lets get this party started");
+            navigator.mediaDevices.getUserMedia({video: true});
+        }
+    }
+    componentDidMount();
+
     function toggleAccordion() {
         setActiveAccordion(!accordion);
     }
@@ -47,7 +55,7 @@ export const AccordionHome = () => {
                         )}
                     </div>
                     <div className={accordion ? "active" : "inactive"}>
-                        <div><button> Open Camera </button></div>
+                        <div><a href="./camera"> Open Camera </a></div>
                         <div>
                             <label className="select-image-input">
                                 <input id="getFile" type="file" onChange={(event) => {onSelectedImage(event)}} accept=".jpg, .jpeg, .png"/>

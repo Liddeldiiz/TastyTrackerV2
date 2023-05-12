@@ -8,6 +8,7 @@ import { Settings } from './views/Settings';
 import { Library } from './views/Library';
 import { AddImage } from './views/AddImage';
 import { ChangeUserName } from './views/ChangeUserName';
+import { Camera } from './components/Camera';
 import { NoPage } from './views/NoPage';
 
 import { UserContext } from './components/UserContext';
@@ -33,6 +34,7 @@ function App() {
             <Route path="/library" element={<Library />} />
             <Route path="/addImage" element={<AddImage />} />
             <Route path="changeUserName" element={<ChangeUserName />} />
+            <Route path="/camera" element={<Camera />}/>
             <Route path="*" element={<NoPage />} />
             
           </Routes>
