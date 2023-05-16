@@ -26,17 +26,17 @@ function App() {
         <Router>
         <UserContext.Provider value={userUid}>
           <Routes>
-            
-            <Route path="/" element={<Home />}/>
-            <Route path="/login" element={<Login func={pullUserCredentials}/>}/>
-            <Route path="/register" element={<Register />}/>
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/library" element={<Library />} />
-            <Route path="/addImage" element={<AddImage />} />
-            <Route path="changeUserName" element={<ChangeUserName />} />
-            <Route path="/camera" element={<Camera />}/>
+
+            <Route path="TastyTrackerV2/" element={<Home />}/>
+            <Route path="TastyTrackerV2/login" element={<Login func={pullUserCredentials}/>}/>
+            <Route path="TastyTrackerV2/register" element={<Register />}/>
+            <Route path="TastyTrackerV2/settings" element={<Settings />} />
+            <Route path="TastyTrackerV2/library" element={<Library />} />
+            <Route path="TastyTrackerV2/addImage" element={<AddImage />} />
+            <Route path="TastyTrackerV2/changeUserName" element={<ChangeUserName />} />
+            <Route path="TastyTrackerV2/camera" element={<Camera />}/>
             <Route path="*" element={<NoPage />} />
-            
+
           </Routes>
           </UserContext.Provider>
         </Router>
