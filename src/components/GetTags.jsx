@@ -135,10 +135,10 @@ export const GetTags = ( props ) => {
         let snackButton = Object.values(tags)[3];
         return (
             <div>
-                <Button value={breakfastButtonValue} onClick={getBreakfastButtonValue}>{breakfastButton}</Button>
-                <Button value={lunchButtonValue} onClick={getLunchButtonValue}>{lunchButton}</Button>
-                <Button value={dinnerButtonValue} onClick={getDinnerButtonValue}>{dinnerButton}</Button>
-                <Button value={snackButtonValue} onClick={getSnackButtonValue}>{snackButton}</Button>   
+                <Button className="my-button" value={breakfastButtonValue} onClick={getBreakfastButtonValue}>{breakfastButton}</Button>
+                <Button className="my-button" value={lunchButtonValue} onClick={getLunchButtonValue}>{lunchButton}</Button>
+                <Button className="my-button" value={dinnerButtonValue} onClick={getDinnerButtonValue}>{dinnerButton}</Button>
+                <Button className="my-button" value={snackButtonValue} onClick={getSnackButtonValue}>{snackButton}</Button>   
             </div>
         )
     }

@@ -182,7 +182,7 @@ export const Settings = () => {
 
               <Select options={options} onChange={handleSelect}/>
 
-              <Button type="submit">Save</Button>
+              <Button type="submit" className="my-button">Save</Button>
               <p> Time before notifications </p>
 
               <div className="notification-settings">

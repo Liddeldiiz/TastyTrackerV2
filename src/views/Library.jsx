@@ -11,6 +11,7 @@ import filter_icon from '../static/images/filter_icon.png';
 import { useState, useEffect } from 'react';
 
 import '../static/css/App.css';
+import { Row } from 'react-bootstrap';
 
 export const Library = () => {
 
@@ -92,9 +93,8 @@ export const Library = () => {
                 <a href='/' className='home-img'>
                     <img src={home_icon}/>     
                 </a>
-                <h3> Welcome in your meal library! </h3>
             </div>
-            
+            <h3> Welcome in your meal library! </h3>
             <div className='app-body'>
                 <p> This is the app body. </p>
                 <img src={filter_icon} className='filter-img' />
