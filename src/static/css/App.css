@@ -140,7 +140,6 @@ button {
 .images-flex-container {
   width: 200px;
   height: 200px;
-  height: auto;
   margin: 3px;
   padding: 3px;
   border: red;
@@ -148,13 +147,14 @@ button {
 }
 
 .images-container {
-  border: green;
+  width: 200px;
+  height: 200px;
   display: flex;
 }
 
 .home-page-images {
-  max-width: 100%;
-  height: auto;
+  width: 200px;
+  height: 200px;
 }
 
 .upload-image {
