@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { auth, googleProvider} from '../config/Firebase';
 import { 
         signInWithEmailAndPassword,
@@ -7,19 +7,22 @@ import {
     } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import { UserContext } from '../App';
 
 // spinner for loading...
 
 
-export const Login = (props) => {
+export const Login = () => {
     const navigate = useNavigate();
     const notify = (text) => toast(text);
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const UserContext = createContext();
-    const [user, setUser] = useState({});
+    const { setUser, email, setEmail } = useContext(UserContext)
     const [isLoading, setLoading] = useState(false);
+    const [password, setPassword] = useState("");
+
+    //const [email, setEmail] = useState("");
+    //const [newUser, setNewUser] = useState({});
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,6 +30,7 @@ export const Login = (props) => {
         try {
             await signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
                 let user = userCredential.user;
+                setUser(userCredential.user);
                 console.log(user.uid);
                 setLoading(false);
                 navigate("/");
@@ -42,6 +46,7 @@ export const Login = (props) => {
         try {
             await signInWithPopup(auth, googleProvider).then((userCredential) => {
               const user = userCredential.user;
+              setUser(userCredential.user);
               setLoading(false);
   
               navigate('/');
@@ -54,8 +59,9 @@ export const Login = (props) => {
     const signInWithFacebook = async ()=>{
         const provider = new FacebookAuthProvider();
         await signInWithPopup(auth, provider)
-        .then((re)=> {
-            console.log(re);
+        .then((userCredential)=> {
+            setUser(userCredential.user);
+            console.log(userCredential);
             navigate('/');
         })
         .catch((err)=>{
@@ -72,15 +78,6 @@ export const Login = (props) => {
         navigate("/register");
     }
 
-    const ColoredLine = (color) => { // Not working yet
-        <hr
-            style={{
-                color: color,
-                backgroundColor: color,
-                height: 5
-            }}
-        />
-    };
 
     return (
         <div className="auth-form-container">
@@ -91,8 +88,6 @@ export const Login = (props) => {
             placeholder="your email" 
             id="email" 
             name="email"/>
-
-            <ColoredLine color="red"/>
 
             <input 
             onChange={(e) => setPassword(e.target.value)} 

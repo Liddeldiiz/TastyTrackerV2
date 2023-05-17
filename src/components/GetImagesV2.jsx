@@ -9,6 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import '../static/css/App.css';
 import LoadingSpinner from './LoadingSpinner';
+import { Carousel } from 'react-bootstrap';
 
 
 export const GetImages = ( props ) => {
@@ -146,6 +147,7 @@ export const GetImages = ( props ) => {
   return (
     <a href='asdf'>
       <div className='images-container'>
+      <Carousel>
         {imageListEmpty ? (
           isToday ? (
             <>
@@ -162,11 +164,16 @@ export const GetImages = ( props ) => {
             )
         ) : 
         loader ? 
+        
         <LoadingSpinner /> :
+        
         imageList.map((url) => {
-          return <img src={url} alt='img' className='home-page-images'/>
+          return <Carousel.Item><img src={url} alt='img' className='home-page-images'/></Carousel.Item>
         })}
+        
+        </Carousel>
       </div>
+      
     </a>
   );
 }

@@ -1,8 +1,8 @@
 import { auth, db } from '../config/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
-import { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AccordionHome } from '../components/AccordionHome';
 import { GetImages } from '../components/GetImagesV2';
@@ -10,32 +10,41 @@ import { GetImages } from '../components/GetImagesV2';
 import settings_icon from '../static/images/settings_icon.svg';
 import folder_icon from '../static/images/folder_icon.svg';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { UserContext } from '../App';
+import { Carousel } from 'react-bootstrap';
 
 export const Home = () => {
+  const { user } = useContext(UserContext);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const [user, setUser] = useState({});
+  const [newUser, setNewUser] = useState({});
   // const [image, setImage] = useState("") should we pass pictures as string?
   const [images, setImages] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [isUserLoading, setIsUserLoading] = useState(false);
 
-  let userUid;
+  /*
   onAuthStateChanged(auth, (currentUser) => {
-    userUid = currentUser.uid;
+    user = currentUser;
     //console.log("current user: ", currentUser.uid);
     setUser(currentUser);
-  });
+  });*/
 
   useEffect(() => {
+    console.log("home: ", user.uid);
+    /*
+    console.log("UserContext: ", user.uid);
     if(!checkNeededData) {
       setIsLoading(true);
-      
+      navigate('/login');
     } else {
       setIsLoading(false);
       console.log("user id: ", user.uid);
       //setIsLoading(true);
     }
+
+    */
   }, [user, location.state?.status])
 
   const checkNeededData = () => {
@@ -82,10 +91,10 @@ export const Home = () => {
     if (year < 10) { yearString = `0${year}`} else { yearString = `${year}`};
 
     const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`;
-    //const formattedStartDate = `${dayStartString}/${monthString}/${yearString}`;
+    const formattedStartDateDisplay = `${dayStartString}/${monthString}/${yearString}`;
     const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`;
-    //const formattedEndDate = `${dayStartString}/${monthString}/${yearString}`;
-    return [formattedStartDate, formattedEndDate];
+    const formattedEndDateDisplay = `${dayStartString}/${monthString}/${yearString}`;
+    return [formattedStartDate, formattedEndDate, formattedStartDateDisplay, formattedEndDateDisplay];
   }
   
   const box1 = formatDate(dateObject);
@@ -109,25 +118,24 @@ export const Home = () => {
         <hr />
         <a href='./library'><img src={folder_icon} className='lib-img'/><h3 className='lib-desc'>Library</h3> </a>
         <hr />
-        <div id="myCarousel" className="carousel slide" data-ride="carousel">
+        { /* <div id="myCarousel" className="carousel slide" data-ride="carousel"> */ }
+        
 
-          <div className="carousel-inner">
-
-            <div className="item">
               <div className='uploads'>
                 <div className='images-flex-container'>
-                  <p>{box1[0]}</p>
+                  <p>{box1[2]}</p>
+                  
                   <GetImages formattedStartDate={box1[0]} formattedEndDate={box1[1]}/>
+                  
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+          
+        { /*</div> */}
 
         <div className='uploads'>
           <hr />
           <div className='images-flex-container'>
-          <p>{box2[0]}</p>
+          <p>{box2[2]}</p>
             <GetImages formattedStartDate={box2[0]} formattedEndDate={box2[1]}/>
 
           </div>
@@ -136,7 +144,7 @@ export const Home = () => {
 
         <div className='uploads'>
           <div className='images-flex-container'>
-            <p>{box3[0]}</p>
+            <p>{box3[2]}</p>
             <GetImages formattedStartDate={box3[0]} formattedEndDate={box3[1]}/>
 
           </div>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState, createContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Switch } from "react-router-dom";
 
 import { Login } from './views/Login';
 import { Register } from "./views/Register";
@@ -11,35 +11,39 @@ import { ChangeUserName } from './views/ChangeUserName';
 import { Camera } from './components/Camera';
 import { NoPage } from './views/NoPage';
 
-import { UserContext } from './components/UserContext';
 
 import './static/css/App.css';
 
-function App() {
+export const UserContext = createContext();
 
-  const [userUid, setUserUid] = useState();
+function App() {
+  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
+
   const pullUserCredentials = (data) => {
-    setUserUid(data);
+    setUser(data);
+    console.log("app.js: userUid(data): ", data);
   }
     return (
       <div className='App'>
-        <Router>
-        <UserContext.Provider value={userUid}>
-          <Routes>
-
-            <Route path="/TastyTrackerV2/" element={<Home />}/>
-            <Route path="/login" element={<Login func={pullUserCredentials}/>}/>
-            <Route path="/register" element={<Register />}/>
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/library" element={<Library />} />
-            <Route path="/addImage" element={<AddImage />} />
-            <Route path="/changeUserName" element={<ChangeUserName />} />
-            <Route path="/camera" element={<Camera />}/>
-            <Route path="*" element={<NoPage />} />
-
-          </Routes>
-          </UserContext.Provider>
-        </Router>
+        <UserContext.Provider value={{
+          user, setUser,
+          email, setEmail
+          }}>
+          <Router>
+            <Routes>
+              <Route exact path="/" element={<Home />}/>
+              <Route path="/login" element={<Login />}/>
+              <Route path="/register" element={<Register />}/>
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/library" element={<Library />} />
+              <Route path="/addImage" element={<AddImage />} />
+              <Route path="/changeUserName" element={<ChangeUserName />} />
+              <Route path="/camera" element={<Camera />}/>
+              <Route path="*" element={<NoPage />} />
+            </Routes>   
+          </Router>
+        </UserContext.Provider>
       </div>
     );
 };

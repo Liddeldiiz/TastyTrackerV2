@@ -27,7 +27,7 @@ export const Settings = () => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState({});
+  const [newUser, setNewUser] = useState({});
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [mealsPerDay, setMealsPerDay] = useState("");
@@ -46,7 +46,7 @@ export const Settings = () => {
 
     onAuthStateChanged(auth, (currentUser) => {
       
-      setUser(currentUser);
+      setNewUser(currentUser);
     });
     
     useEffect(() => {
@@ -60,10 +60,10 @@ export const Settings = () => {
         getDataFromDb();
       }
       
-    }, [user])
+    }, [newUser])
 
     const checkNeededData = () => {
-      if (user.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
+      if (newUser.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
         return false;
       } else {
         return true
@@ -76,9 +76,9 @@ export const Settings = () => {
     const getDataFromDb = () => {
       try {
 
-        console.log(user.uid);
+        console.log(newUser.uid);
         const colRef = collection(db, 'users');
-        const q = query(colRef, where('userId', '==', user.uid)); // this user.uid is undefined
+        const q = query(colRef, where('userId', '==', newUser.uid)); // this user.uid is undefined
 
         
         let queryResult;
@@ -114,7 +114,7 @@ export const Settings = () => {
 
       const data = {
         username: tempUserName,
-        userId: user.uid,
+        userId: newUser.uid,
         email: tempEmail,
         mealsPerDay: tempMeals,
         notifications: tempChoice
@@ -178,7 +178,7 @@ export const Settings = () => {
           <p> This is the app body. </p>
             {isLoading ? <LoadingSpinner /> : (
               <div>
-              <h3 className='welcome-user'>Hi, {user.email}</h3>
+              <h3 className='welcome-user'>Hi, {newUser.email}</h3>
 
               <div className='user-settings'>
                 <form onSubmit={handleSubmit}>
