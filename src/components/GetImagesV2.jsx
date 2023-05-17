@@ -20,14 +20,14 @@ export const GetImages = ( props ) => {
   const [loader, setLoader] = useState(false);
   
 
-  onAuthStateChanged(auth, (currentUser) => {  
-    console.log("current user uid: ", user.uid);
-    setUser(currentUser);
-  });
+  
 
   useEffect(() => {
     // perhaps useContext could solve this issue of infinite onAuthStateChanged
-    
+    onAuthStateChanged(auth, (currentUser) => {  
+      console.log("current user uid: ", user.uid);
+      setUser(currentUser);
+    });
 
     async function getStorageItems() {
       setLoader(true);

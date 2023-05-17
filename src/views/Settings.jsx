@@ -57,7 +57,7 @@ export const Settings = () => {
 
         console.log(user.uid);
         const colRef = collection(db, 'users');
-        const q = query(colRef, where('userId', '==', user.uid));
+        const q = query(colRef, where('userId', '==', user.uid)); // this user.uid is undefined
 
         
         let queryResult;
