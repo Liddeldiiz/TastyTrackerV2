@@ -27,7 +27,7 @@ function App() {
         <UserContext.Provider value={userUid}>
           <Routes>
 
-            <Route path="/" element={<Home />}/>
+            <Route path="/TastyTrackerV2/" element={<Home />}/>
             <Route path="/login" element={<Login func={pullUserCredentials}/>}/>
             <Route path="/register" element={<Register />}/>
             <Route path="/settings" element={<Settings />} />
