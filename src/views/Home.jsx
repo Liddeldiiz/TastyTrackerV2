@@ -78,11 +78,18 @@ export const Home = () => {
         <hr />
         <a href='./library'><img src={folder_icon} className='lib-img'/><h3 className='lib-desc'>Library</h3> </a>
         <hr />
+        <div id="myCarousel" className="carousel slide" data-ride="carousel">
 
-        <div className='uploads'>
-          <div className='images-flex-container'>
-            <p>{box1[0]}</p>
-            <GetImages formattedStartDate={box1[0]} formattedEndDate={box1[1]}/>
+          <div className="carousel-inner">
+
+            <div className="item">
+              <div className='uploads'>
+                <div className='images-flex-container'>
+                  <p>{box1[0]}</p>
+                  <GetImages formattedStartDate={box1[0]} formattedEndDate={box1[1]}/>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
