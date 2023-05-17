@@ -53,10 +53,10 @@ export const Home = () => {
     let yearString = "";
     if (year < 10) { yearString = `0${year}`} else { yearString = `${year}`};
 
-    //const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`;
-    const formattedStartDate = `${dayStartString}/${monthString}/${yearString}`;
-    //const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`;
-    const formattedEndDate = `${dayStartString}/${monthString}/${yearString}`;
+    const formattedStartDate = `${yearString}-${monthString}-${dayStartString}`;
+    //const formattedStartDate = `${dayStartString}/${monthString}/${yearString}`;
+    const formattedEndDate = `${yearString}-${monthString}-${dayEndString}`;
+    //const formattedEndDate = `${dayStartString}/${monthString}/${yearString}`;
     return [formattedStartDate, formattedEndDate];
   }
   

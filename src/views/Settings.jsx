@@ -25,10 +25,11 @@ import Button from 'react-bootstrap/Button';
 export const Settings = () => {
 
   const navigate = useNavigate();
-    const [user, setUser] = useState({});
-    const [userName, setUserName] = useState("");
-    const [email, setEmail] = useState("");
-    const [documentReference, setDocumentReference] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState({});
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [documentReference, setDocumentReference] = useState();
 
     var options = [
       { value: 5, label: '5 min'},
@@ -40,12 +41,13 @@ export const Settings = () => {
 
     
 
-    onAuthStateChanged(auth, (currentUser) => {
-      
-              setUser(currentUser);
-    });
+    
     
     useEffect(() => {
+      onAuthStateChanged(auth, (currentUser) => {
+      
+        setUser(currentUser);
+      });
       getDataFromDb();
     }, [])
     
