@@ -8,6 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 
 import '../static/css/App.css';
+import LoadingSpinner from './LoadingSpinner';
 
 
 export const GetImages = ( props ) => {
@@ -18,19 +19,57 @@ export const GetImages = ( props ) => {
   const [isToday, setToday] = useState(false);
   const [user, setUser] = useState({});
   const [loader, setLoader] = useState(false);
+  const [isUserLoading, setIsUserLoading] = useState(false);
   
 
-  
-
-  useEffect(() => {
-    // perhaps useContext could solve this issue of infinite onAuthStateChanged
+  if (user.uid === undefined) {  
     onAuthStateChanged(auth, (currentUser) => {  
       console.log("current user uid: ", user.uid);
       setUser(currentUser);
     });
+  }
 
-    async function getStorageItems() {
+  useEffect(() => {
+    
+    console.log("checking if user is undefined");
+    if(!checkNeededData) {
+      console.log("user is undefined");
+      setIsUserLoading(true);
+      
+    } else {
+      setIsUserLoading(false);
+      console.log("user is defined");
+      console.log("setting loader status to true");
       setLoader(true);
+    }
+
+    if (loader) {
+      if (props.formattedStartDate === undefined || props.formattedEndDate === undefined) { return <></> }
+      else {
+      try {
+        console.log("fetching data from db");
+        getStorageItems();
+        console.log("setting loader status to false");
+        setLoader(false);
+      } catch(error) {
+        console.log("try catch error: ", error.message);
+      };
+    }
+    }
+
+    
+  }, [user, imageList]);
+
+
+  const checkNeededData = () => {
+      if (user.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
+        return false;
+      } else {
+        return true
+      }
+    }
+
+  async function getStorageItems() {
       console.log("loader: ", loader);
       
         // collection reference
@@ -80,23 +119,13 @@ export const GetImages = ( props ) => {
                       }
                     }
                     console.log("url: ", url);
-                      setImageList((prev) => [...prev, url]);
-                      setLoader(false);});});});
+                    setImageList((prev) => [...prev, url]);
+                  });
+                });
+              });
           }
         });
-    }
-    if (props.formattedStartDate === undefined || props.formattedEndDate === undefined) { return <></> }
-    else {
-      try {
-        getStorageItems();
-      } catch(error) {
-        console.log("try catch error: ", error.message);
-      };
-    }
-  }, [props.formattedStartDate, props.formattedEndDate, user, imageList]);
-
-
-  
+    }  
   
 
   const setupConstraints = async () => {    
@@ -132,6 +161,8 @@ export const GetImages = ( props ) => {
             </>
             )
         ) : 
+        loader ? 
+        <LoadingSpinner /> :
         imageList.map((url) => {
           return <img src={url} alt='img' className='home-page-images'/>
         })}

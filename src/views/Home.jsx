@@ -2,24 +2,52 @@ import { auth, db } from '../config/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore';
 import { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 
 import { AccordionHome } from '../components/AccordionHome';
 import { GetImages } from '../components/GetImagesV2';
 
 import settings_icon from '../static/images/settings_icon.svg';
 import folder_icon from '../static/images/folder_icon.svg';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export const Home = () => {
+  const location = useLocation();
+
   const [user, setUser] = useState({});
   // const [image, setImage] = useState("") should we pass pictures as string?
   const [images, setImages] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUserLoading, setIsUserLoading] = useState(false);
 
   let userUid;
   onAuthStateChanged(auth, (currentUser) => {
     userUid = currentUser.uid;
-    console.log("current user: ", currentUser.uid);
+    //console.log("current user: ", currentUser.uid);
     setUser(currentUser);
   });
+
+  useEffect(() => {
+    if(!checkNeededData) {
+      setIsLoading(true);
+      
+    } else {
+      setIsLoading(false);
+      console.log("user id: ", user.uid);
+      //setIsLoading(true);
+    }
+  }, [user, location.state?.status])
+
+  const checkNeededData = () => {
+    if (user.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
+      return false;
+    } else {
+      return true
+    }
+  }
+
+
+  /////////////////////////// Date Formating ///////////////////////////
 
   const dateObject = new Date();
   const currentDay = dateObject.getDate();
@@ -67,6 +95,9 @@ export const Home = () => {
 
   return (
     <div>
+      {isLoading ? 
+      <LoadingSpinner /> :
+       <>
       <div className='app-header'>
         <h3 className='welcome-user'>Hi, {user.email}</h3>
         <a href='./settings' className='settings-img'>
@@ -119,7 +150,8 @@ export const Home = () => {
           <AccordionHome />
       
       </div>
-      
+      </>
+    }
     </div>
     );
 

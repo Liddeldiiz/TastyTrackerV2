@@ -1,6 +1,5 @@
 import { useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { GeoPoint } from 'firebase/firestore';
 
 import { GetTags } from '../components/GetTags';
@@ -138,8 +137,8 @@ export const AddImage = () => {
         //console.log("image: ", imageFile); -- not null
         // upload the picture to the db with the gathered information
         // I need to access the functions defined in UploadImage from here
-        uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
-        navigate('/');
+        let upload_done = await uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
+        navigate('/', {state: {status: upload_done}});
     }
 
     return(
