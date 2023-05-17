@@ -95,10 +95,16 @@ label {
 input {
   margin: 0.5rem 0;
   padding: 1rem;
-  border:none;
+  border:3px solid #40916C ;
+  color:#F8F5F2;
+  background-color: #40916db2;
   border-radius: 10px;
 }
+::placeholder {
+  color:#F8F5F2;
+}
 
+/*
 button {
   border: none;
   background-color: white;
@@ -107,7 +113,24 @@ button {
   cursor: pointer;
   color: #2a2ef8;
 }
+*/
+button {
+  border: none;
+  background-color: #40916C;
+  padding: 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  color: #F8F5F2;
+}
 
+.my-button {
+  border: none;
+  background-color: #40916C;
+  padding: 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  color: #F8F5F2;
+}
 .link-btn {
   background: none;
   color: white;
