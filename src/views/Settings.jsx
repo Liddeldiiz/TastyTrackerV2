@@ -21,6 +21,7 @@ import home_icon from '../static/images/home_icon.svg';
 import settings_icon from '../static/images/settings_icon.svg';
 
 import Button from 'react-bootstrap/Button';
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export const Settings = () => {
 
@@ -29,6 +30,8 @@ export const Settings = () => {
   const [user, setUser] = useState({});
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [mealsPerDay, setMealsPerDay] = useState("");
+  const [userChoice, setUserChoice] = useState("");
   const [documentReference, setDocumentReference] = useState();
 
     var options = [
@@ -41,15 +44,31 @@ export const Settings = () => {
 
     
 
-    
+    onAuthStateChanged(auth, (currentUser) => {
+      
+      setUser(currentUser);
+    });
     
     useEffect(() => {
-      onAuthStateChanged(auth, (currentUser) => {
+      if(!checkNeededData()) {
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+      }
+      if (isLoading) {
+        
+        getDataFromDb();
+      }
       
-        setUser(currentUser);
-      });
-      getDataFromDb();
-    }, [])
+    }, [user])
+
+    const checkNeededData = () => {
+      if (user.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
+        return false;
+      } else {
+        return true
+      }
+    }
     
   
 
@@ -157,51 +176,57 @@ export const Settings = () => {
 
         <div className='app-body'>
           <p> This is the app body. </p>
-          <h3 className='welcome-user'>Hi, {user.email}</h3>
+            {isLoading ? <LoadingSpinner /> : (
+              <div>
+              <h3 className='welcome-user'>Hi, {user.email}</h3>
 
-          <div className='user-settings'>
-            <form onSubmit={handleSubmit}>
-              <input 
-              onChange={handleUserNameChange}
-              type='text'
-              placeholder="Username..."
-              id='username'
-              name='username'/>
+              <div className='user-settings'>
+                <form onSubmit={handleSubmit}>
+                  <input 
+                  onChange={handleUserNameChange}
+                  type='text'
+                  placeholder="Username..."
+                  id='username'
+                  name='username'/>
 
-              <input 
-              onChange={handleEmailChange}
-              type='email'
-              placeholder="Email address..."
-              id='email'
-              name='email'/>
+                  <input 
+                  onChange={handleEmailChange}
+                  type='email'
+                  placeholder="Email address..."
+                  id='email'
+                  name='email'/>
 
-              <input 
-              onChange={handleMealsChange}
-              type='number'
-              placeholder="Meals per day..."
-              id='mealsPerDay'
-              name='mealsPerDay'/>
+                  <input 
+                  onChange={handleMealsChange}
+                  type='number'
+                  placeholder="Meals per day..."
+                  id='mealsPerDay'
+                  name='mealsPerDay'/>
 
-              <Select options={options} onChange={handleSelect}/>
+                  <Select options={options} onChange={handleSelect}/>
 
-              <Button type="submit" className="my-button">Save</Button>
-              <p> Time before notifications </p>
+                  <Button type="submit" className="my-button">Save</Button>
+                  <p> Time before notifications </p>
 
-              <div className="notification-settings">
-                <p> notification settings</p>
+                  <div className="notification-settings">
+                    <p> notification settings</p>
+                  </div>
+                </form>
+
               </div>
-            </form>
+              <div className='uploads'>
+                <h3> images </h3>
+              </div>
+              
+              <div className='uploads'>
+                <h3> images </h3>
+              </div>
+              </div>
+            )}
 
           </div>
-          <div className='uploads'>
-            <h3> images </h3>
-          </div>
           
-          <div className='uploads'>
-            <h3> images </h3>
-          </div>
-          
-        </div>
+
         <div className='app-footer'>
           <p> This is the app footer. </p>
           <Logout />
