@@ -12,6 +12,10 @@ import folder_icon from '../static/images/folder_icon.svg';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { UserContext } from '../App';
 
+import plus_icon from '../static/images/plus_icon.svg';
+
+import '../static/css/Home.css';
+
 
 export const Home = () => {
   const { user } = useContext(UserContext);
@@ -23,6 +27,7 @@ export const Home = () => {
   const [images, setImages] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [isUserLoading, setIsUserLoading] = useState(false);
+  const [imageUpload, setImagesUpload] = useState(null);
 
   useEffect(() => {
     
@@ -37,7 +42,17 @@ export const Home = () => {
     })
     console.log("home: user: ", newUser);
 
-  }, [navigate, newUser])
+  }, [navigate, newUser, location.state?.status])
+
+  function onSelectedImage( event ) {
+        
+    setImagesUpload(event.target.files[0]);
+    let tempImg =  event.target.files[0]
+    console.log("event: ", event.target.files[0]);
+    console.log("tempImg: ", tempImg);
+    navigate("/addImage", {state:{image: tempImg}});
+    
+  }
 
   /////////////////////////// Date Formating ///////////////////////////
 
@@ -81,7 +96,7 @@ export const Home = () => {
   /*  */
 
   return (
-    <div>
+    <div className='app-page'>
       {isLoading ? 
       <LoadingSpinner /> :
        <>
@@ -125,8 +140,14 @@ export const Home = () => {
       </div>
       <div className='app-footer'>
         
-        <p> This is the app footer. </p>
-          <AccordionHome />
+        {/*<AccordionHome />*/}
+        <div>
+          
+          <label className="select-image-input">
+            <input id="getFile" type="file" onChange={(event) => {onSelectedImage(event)}} accept=".jpg, .jpeg, .png"/>
+            <img src={plus_icon} alt='plus'/>
+          </label>
+        </div>
       
       </div>
       </>

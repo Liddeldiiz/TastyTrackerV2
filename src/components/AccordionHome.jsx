@@ -35,7 +35,8 @@ export const AccordionHome = () => {
         console.log("tempImg: ", tempImg);
         navigate("/addImage", {state:{image: tempImg}});
         
-    }
+      }
+    
 
     return(
     <>
