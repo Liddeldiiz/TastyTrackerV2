@@ -11,7 +11,7 @@ import settings_icon from '../static/images/settings_icon.svg';
 import folder_icon from '../static/images/folder_icon.svg';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { UserContext } from '../App';
-import { Carousel } from 'react-bootstrap';
+
 
 export const Home = () => {
   const { user } = useContext(UserContext);
@@ -118,19 +118,12 @@ export const Home = () => {
         <hr />
         <a href='./library'><img src={folder_icon} className='lib-img'/><h3 className='lib-desc'>Library</h3> </a>
         <hr />
-        { /* <div id="myCarousel" className="carousel slide" data-ride="carousel"> */ }
-        
-
-              <div className='uploads'>
-                <div className='images-flex-container'>
-                  <p>{box1[2]}</p>
-                  
-                  <GetImages formattedStartDate={box1[0]} formattedEndDate={box1[1]}/>
-                  
-                </div>
-              </div>
-          
-        { /*</div> */}
+          <div className='uploads'>
+            <div className='images-flex-container'>
+              <p>{box1[2]}</p>                
+              <GetImages formattedStartDate={box1[0]} formattedEndDate={box1[1]}/>  
+            </div>
+          </div>
 
         <div className='uploads'>
           <hr />

@@ -148,7 +148,8 @@ button {
 }
 
 .images-container {
-  border: green;
+  width: 200px;
+  height: 200px;
   display: flex;
 }
 
