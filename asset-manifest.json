@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "./static/css/main.12506a8b.css",
-    "main.js": "./static/js/main.0b58de52.js",
-    "static/js/787.cdcdca4b.chunk.js": "./static/js/787.cdcdca4b.chunk.js",
-    "static/media/settings_icon.svg": "./static/media/settings_icon.20666317a0e56427485b19d613abe758.svg",
-    "static/media/home_icon.svg": "./static/media/home_icon.48e11467c709fba4ae55ce60df09bb14.svg",
-    "static/media/folder_icon.svg": "./static/media/folder_icon.b3f77334f78ce519c4acb21c10e2bdf9.svg",
-    "index.html": "./index.html",
-    "static/media/plus_icon.svg": "./static/media/plus_icon.32efbe40a5c3658ebbf3687b7b809b37.svg",
-    "main.12506a8b.css.map": "./static/css/main.12506a8b.css.map",
-    "main.0b58de52.js.map": "./static/js/main.0b58de52.js.map",
-    "787.cdcdca4b.chunk.js.map": "./static/js/787.cdcdca4b.chunk.js.map"
+    "main.css": "/TastyTrackerV2/static/css/main.12506a8b.css",
+    "main.js": "/TastyTrackerV2/static/js/main.76a88972.js",
+    "static/js/787.cdcdca4b.chunk.js": "/TastyTrackerV2/static/js/787.cdcdca4b.chunk.js",
+    "static/media/settings_icon.svg": "/TastyTrackerV2/static/media/settings_icon.20666317a0e56427485b19d613abe758.svg",
+    "static/media/home_icon.svg": "/TastyTrackerV2/static/media/home_icon.48e11467c709fba4ae55ce60df09bb14.svg",
+    "static/media/folder_icon.svg": "/TastyTrackerV2/static/media/folder_icon.b3f77334f78ce519c4acb21c10e2bdf9.svg",
+    "index.html": "/TastyTrackerV2/index.html",
+    "static/media/plus_icon.svg": "/TastyTrackerV2/static/media/plus_icon.32efbe40a5c3658ebbf3687b7b809b37.svg",
+    "main.12506a8b.css.map": "/TastyTrackerV2/static/css/main.12506a8b.css.map",
+    "main.76a88972.js.map": "/TastyTrackerV2/static/js/main.76a88972.js.map",
+    "787.cdcdca4b.chunk.js.map": "/TastyTrackerV2/static/js/787.cdcdca4b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.12506a8b.css",
-    "static/js/main.0b58de52.js"
+    "static/js/main.76a88972.js"
   ]
 }
