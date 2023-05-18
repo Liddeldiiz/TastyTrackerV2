@@ -18,7 +18,6 @@ export const AccordionHome = () => {
 
     function componentDidMount() {
         if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-            console.log("Lets get this party started");
             navigator.mediaDevices.getUserMedia({video: true});
         }
     }

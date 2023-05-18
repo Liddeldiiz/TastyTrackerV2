@@ -1,5 +1,5 @@
 import React, { useState, createContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { Login } from './views/Login';
 import { Register } from "./views/Register";

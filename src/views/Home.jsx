@@ -24,37 +24,20 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUserLoading, setIsUserLoading] = useState(false);
 
-  /*
-  onAuthStateChanged(auth, (currentUser) => {
-    user = currentUser;
-    //console.log("current user: ", currentUser.uid);
-    setUser(currentUser);
-  });*/
-
   useEffect(() => {
-    console.log("home: ", user.uid);
-    /*
-    console.log("UserContext: ", user.uid);
-    if(!checkNeededData) {
-      setIsLoading(true);
-      navigate('/login');
-    } else {
-      setIsLoading(false);
-      console.log("user id: ", user.uid);
-      //setIsLoading(true);
-    }
+    
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setNewUser(currentUser);
+        console.log("onAuthStateChanged: new user set: ", currentUser);
+      } else {
+        console.log("no user detected, redirecting to login page");
+        navigate('/login');
+      }
+    })
+    console.log("home: user: ", newUser);
 
-    */
-  }, [user, location.state?.status])
-
-  const checkNeededData = () => {
-    if (user.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
-      return false;
-    } else {
-      return true
-    }
-  }
-
+  }, [navigate, newUser])
 
   /////////////////////////// Date Formating ///////////////////////////
 
@@ -68,12 +51,7 @@ export const Home = () => {
 
   const twoDaysBeforeDateObject = new Date();
   twoDaysBeforeDateObject.setDate(dateObject.getDate() - 2);
-
-  //console.log("dateObject: ", dateObject);
-  //console.log("dayBeforeDateObject: ", dayBeforeDateObject);
-  //console.log("twoDaysBeforeDateObject: ", twoDaysBeforeDateObject);
-
-  
+ 
   const formatDate = (dateObject) => {
 
     const day = dateObject.getDate();

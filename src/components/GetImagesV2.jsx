@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { db, storage, auth } from '../config/Firebase';
 import { collection, getDocs, query, where, onSnapshot, DocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
@@ -14,38 +15,42 @@ import { Carousel } from 'react-bootstrap';
 
 export const GetImages = ( props ) => {
 
+  const navigate = useNavigate();
+
   const [images, setImages] = useState();
   const [imageList, setImageList] = useState([]);
   const [imageListEmpty, setImageListEmpty] = useState(true);
   const [isToday, setToday] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
   const [loader, setLoader] = useState(false);
   const [isUserLoading, setIsUserLoading] = useState(false);
   
 
-  if (user.uid === undefined) {  
-    onAuthStateChanged(auth, (currentUser) => {  
-      console.log("current user uid: ", user.uid);
-      setUser(currentUser);
-    });
-  }
+
 
   useEffect(() => {
-    
-    console.log("checking if user is undefined");
-    if(!checkNeededData) {
-      console.log("user is undefined");
-      setIsUserLoading(true);
+    console.log("GetImagesV2: useEffect");
+    console.log("GetImagesV2: user: ", user);
+    if(!user) {
+      console.log("GetImagesV2: user not found");
+      //setIsUserLoading(true);
       
+      onAuthStateChanged(auth, (currentUser) => {  
+        if(currentUser) {
+          console.log("GetImagesV2: setting user");
+          setUser(currentUser);
+        } else {
+          console.log("no user detected, redirecting to login page");
+          navigate('/login');
+        }
+      });
     } else {
-      setIsUserLoading(false);
-      console.log("user is defined");
-      console.log("setting loader status to true");
+      
+      //setIsUserLoading(false);
+      console.log("GetImagesV2: setting loader true");
       setLoader(true);
-    }
-
-    if (loader) {
-      if (props.formattedStartDate === undefined || props.formattedEndDate === undefined) { return <></> }
+      console.log("GetImagesV2: checking props");
+      if (!props.formattedStartDate || !props.formattedEndDate) { return <></> }
       else {
       try {
         console.log("fetching data from db");
@@ -57,11 +62,27 @@ export const GetImages = ( props ) => {
       };
     }
     }
+    /*
+    console.log("loader: ", loader);
+    if (loader) {
+      console.log("GetImagesV2: checking props");
+      if (!props.formattedStartDate || !props.formattedEndDate) { return <></> }
+      else {
+      try {
+        console.log("fetching data from db");
+        getStorageItems();
+        console.log("setting loader status to false");
+        setLoader(false);
+      } catch(error) {
+        console.log("try catch error: ", error.message);
+      };
+    }
+    }*/
 
     
   }, [user, imageList]);
 
-
+/*
   const checkNeededData = () => {
       if (user.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
         return false;
@@ -69,7 +90,7 @@ export const GetImages = ( props ) => {
         return true
       }
     }
-
+*/
   async function getStorageItems() {
       console.log("loader: ", loader);
       
@@ -134,6 +155,8 @@ export const GetImages = ( props ) => {
     let start = new Date(props.formattedStartDate);
     let end = new Date(props.formattedEndDate);
     
+    console.log("getImagesV2: user: ", user);
+
     const queryConstraints = []
 
     queryConstraints.push(where('upload_date', '>=', start));

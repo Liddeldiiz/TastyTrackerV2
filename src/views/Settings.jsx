@@ -63,7 +63,7 @@ export const Settings = () => {
     }, [newUser])
 
     const checkNeededData = () => {
-      if (newUser.uid === undefined) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
+      if (!newUser) { // userName === "" || email === "" || mealsPerDay === "" || userChoice === "" || 
         return false;
       } else {
         return true
