@@ -101,7 +101,7 @@ export const Home = () => {
       <LoadingSpinner /> :
        <>
       <div className='app-header'>
-        <h3 className='welcome-user'>Hi, {user.email}</h3>
+        <h3 className='welcome-user'>Hi, {newUser.email}</h3>
         <a href='./settings' className='settings-img'>
           <img src={settings_icon} />
         </a>

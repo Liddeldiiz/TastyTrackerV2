@@ -10,8 +10,9 @@ import folder_icon from '../static/images/folder_icon.svg';
 import filter_icon from '../static/images/filter_icon.png';
 import { useState, useEffect } from 'react';
 
-import '../static/css/App.css';
+// import '../static/css/Library.css';
 import { Row } from 'react-bootstrap';
+
 
 export const Library = () => {
 
@@ -87,50 +88,50 @@ export const Library = () => {
                     
     return (
         <div>
-            <div className='app-header'>
-                <img src={folder_icon} className='lib-img' />
-                <h3 className='lib-desc'> Library </h3>
-                <a href='/' className='home-img'>
-                    <img src={home_icon}/>     
-                </a>
+          <div>
+            <img src={folder_icon} className='lib-img' />
+            <h3 className='lib-desc'> Library </h3>
+            <a href='/' className='home-img'>
+              <img src={home_icon} className='home-img'/>     
+            </a>
+          </div>
+          <h3> Welcome in your meal library! </h3>
+          <div className='app-body'>
+            <p> This is the app body. </p>
+            <img src={filter_icon} className='filter-img' />
+            <p>Filter</p>
+            <div className='filter-options'>
+              <button> Day </button>
+              <button> Week </button>
+              <button> Month </button>
+              <button> From: To: </button>
+              <button> Breakfast </button>
+              <button> Lunch </button>
+              <button> Dinner </button>
+              <button> Snack </button>
             </div>
-            <h3> Welcome in your meal library! </h3>
-            <div className='app-body'>
-                <p> This is the app body. </p>
-                <img src={filter_icon} className='filter-img' />
-                <p>Filter</p>
-                <div className='filter-options'>
-                    <button> Day </button>
-                    <button> Week </button>
-                    <button> Month </button>
-                    <button> From: To: </button>
-                    <button> Breakfast </button>
-                    <button> Lunch </button>
-                    <button> Dinner </button>
-                    <button> Snack </button>
-                </div>
-                <div className='uploads'>
-                <h3> images </h3>
-                <div className='div-images'>
-                    <div className='images-container'>
-                        {emptyImageList ? (
-                            <>
-                                <h3>
-                                    No images added yet
-                                </h3>
-                            </>
-                        ) : 
-                        imageList.map((url) => {
-                        return <img src={url} alt='img' className='home-page-images'/>
-                        })}
-                    </div>
-
-                </div>
+            <div className='uploads'>
+              <h3> images </h3>
+              <div className='div-images'>
+                <div className='images-container'>
+                  {emptyImageList ? (
+                      <>
+                          <h3>
+                              No images added yet
+                          </h3>
+                      </>
+                  ) : 
+                  imageList.map((url) => {
+                  return <img src={url} alt='img' className='home-page-images'/>
+                  })}
                 </div>
 
+              </div>
             </div>
+
+          </div>
         
-        </div>
+      </div>
     );
 }
 
