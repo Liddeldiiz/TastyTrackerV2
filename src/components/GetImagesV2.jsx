@@ -29,52 +29,52 @@ export const GetImages = ( props ) => {
   const urlList = [];
 
   useEffect(() => {
-    console.log("GetImagesV2: useEffect");
-    console.log("GetImagesV2: user: ", user);
+    ////console.log("GetImagesV2: useEffect");
+    //console.log("GetImagesV2: user: ", user);
     if(!user) {
-      console.log("GetImagesV2: user not found");
+      //console.log("GetImagesV2: user not found");
       //setIsUserLoading(true);
       
       onAuthStateChanged(auth, (currentUser) => {  
         if(currentUser) {
-          console.log("GetImagesV2: setting user");
+          //console.log("GetImagesV2: setting user");
           setUser(currentUser);
         } else {
-          console.log("no user detected, redirecting to login page");
+          //console.log("no user detected, redirecting to login page");
           navigate('/login');
         }
       });
     } else {
       
       //setIsUserLoading(false);
-      console.log("GetImagesV2: setting loader true");
+      //console.log("GetImagesV2: setting loader true");
       setLoader(true);
-      console.log("GetImagesV2: checking props");
+      //console.log("GetImagesV2: checking props");
       if (!props.formattedStartDate || !props.formattedEndDate) { return <></> }
       else {
       try {
-        console.log("fetching data from db");
+        //console.log("fetching data from db");
         getStorageItems();
-        console.log("setting loader status to false");
+        //console.log("setting loader status to false");
         setLoader(false);
       } catch(error) {
-        console.log("try catch error: ", error.message);
+        //console.log("try catch error: ", error.message);
       };
     }
     }
     /*
-    console.log("loader: ", loader);
+    //console.log("loader: ", loader);
     if (loader) {
-      console.log("GetImagesV2: checking props");
+      //console.log("GetImagesV2: checking props");
       if (!props.formattedStartDate || !props.formattedEndDate) { return <></> }
       else {
       try {
-        console.log("fetching data from db");
+        //console.log("fetching data from db");
         getStorageItems();
-        console.log("setting loader status to false");
+        //console.log("setting loader status to false");
         setLoader(false);
       } catch(error) {
-        console.log("try catch error: ", error.message);
+        //console.log("try catch error: ", error.message);
       };
     }
     }*/
@@ -92,7 +92,7 @@ export const GetImages = ( props ) => {
     }
 */
   async function getStorageItems() {
-      console.log("loader: ", loader);
+      //console.log("loader: ", loader);
       
         // collection reference
         const colRef = collection(db, 'images');
@@ -110,20 +110,20 @@ export const GetImages = ( props ) => {
             imagesFromDb.push({ ...doc.data(), id: doc.id });
           });
           setImages(imagesFromDb);
-          console.log("imagesFromDb: ", imagesFromDb)
+          //console.log("imagesFromDb: ", imagesFromDb)
           if (imagesFromDb.length === 0) {
-            console.log("imagesFromDb is: ", imagesFromDb.length)
+            //console.log("imagesFromDb is: ", imagesFromDb.length)
             setImageListEmpty(true);
             let propsDate = new Date(props.formattedStartDate);
             let propsDateDay = propsDate.getDate();
-            console.log("propsDateDay: ", propsDateDay);
+            //console.log("propsDateDay: ", propsDateDay);
             let dateObject = new Date();
             let dateObjectDay = dateObject.getDate();
-            console.log("dateObjectDay: ", dateObjectDay);
+            //console.log("dateObjectDay: ", dateObjectDay);
             if (propsDateDay === dateObjectDay) {
-              console.log(propsDateDay, "===", dateObjectDay)
+              //console.log(propsDateDay, "===", dateObjectDay)
               setToday(true);
-              console.log("isToday: ", isToday);
+              //console.log("isToday: ", isToday);
             }
             
           } else {
@@ -140,7 +140,7 @@ export const GetImages = ( props ) => {
                         return;
                       }
                     }
-                    console.log("url: ", url);
+                    //console.log("url: ", url);
                     setImageList((prev) => [...prev, url]);
                   });
                 });
@@ -155,7 +155,7 @@ export const GetImages = ( props ) => {
     let start = new Date(props.formattedStartDate);
     let end = new Date(props.formattedEndDate);
     
-    console.log("getImagesV2: user: ", user);
+    //console.log("getImagesV2: user: ", user);
 
     const queryConstraints = []
 

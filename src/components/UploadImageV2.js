@@ -7,7 +7,7 @@ import { addToImageCollection } from "./UploadToCollection";
 import { onAuthStateChanged } from 'firebase/auth';
 
 
-export function uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note) {
+export async function uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note) {
     
 
     const showCurrentUser = () => {
@@ -38,7 +38,7 @@ export function uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note
     addToImageCollection(uid, imageRef.fullPath, geoLocation, selectedTag, timeStamp, note);
 
     console.log("imageRef: ", imageRef.fullPath);
-    uploadBytes(imageRef, imageFile).then(() => {
+    await uploadBytes(imageRef, imageFile).then(() => {
         navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
         
         if (navigator.vibrate) {
@@ -54,7 +54,7 @@ export function uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note
         return 1;
 
     });
-    return 1;
+
 }
 
 

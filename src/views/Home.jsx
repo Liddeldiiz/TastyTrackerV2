@@ -40,6 +40,10 @@ export const Home = () => {
         navigate('/login');
       }
     })
+
+    if (newUser === {}) {
+      navigate('/login');
+    }
     console.log("home: user: ", newUser);
     console.log("refreshKey: ", refreshKey);
 

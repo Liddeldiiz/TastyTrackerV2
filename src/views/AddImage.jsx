@@ -16,7 +16,8 @@ import '../static/css/AddImage.css';
 
 export const AddImage = () => {
 
-    const { setRefreshKey } = useContext(UserContext);
+    
+    const [refreshKey, setRefreshKey] = useState(0); 
 
     const navigate = useNavigate();
 
@@ -153,11 +154,19 @@ export const AddImage = () => {
         //console.log("image: ", imageFile); -- not null
         // upload the picture to the db with the gathered information
         // I need to access the functions defined in UploadImage from here
-        await uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
-        setRefreshKey((prevKey) => prevKey + 1 ); 
+        //console.log("refreshKey before upload: ", refreshKey);
+        //setRefreshKey((prevKey) => prevKey + uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note));
+        //setRefreshKey((prevKey) => prevKey + 1 ); 
+        //console.log("refreshKey after upload: ", refreshKey);
+        try {
+            await console.log("value retuned by uploadImage(): ", uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note));
+            navigate('/');
+        } catch (error) {
+            console.log("error in add image promise: ",error);
+        }
         //let result = await uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
         //console.log("addImage: result: ", result);
-        navigate('/');
+        //navigate('/');
     }
 
     return(
