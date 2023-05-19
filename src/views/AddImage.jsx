@@ -30,11 +30,9 @@ export const AddImage = () => {
     const [ timeStamp, setTimeStamp] = useState();
     const [ geoLocation, setGeoLocation ] = useState(); // location of user
     const [ note, setNote ] = useState("");
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
 
-
-
-    var latitude;
-    var longitude;
 
     const imageArr = [];
     const d = new Date();
@@ -59,6 +57,20 @@ export const AddImage = () => {
         
     }, [imageRender]);
 
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            console.log("Available");
+            navigator.geolocation.getCurrentPosition(function(position) {
+              console.log("Latitude is: ", position.coords.latitude);
+              setLatitude(position.coords.latitude);
+              console.log("Longitude is: ", position.coords.longitude);
+              setLongitude(position.coords.longitude);
+            });
+          } else {
+            console.log("Not Available");
+          }
+    }, [])
+
     function componentDidMount() {
         if ("geolocation" in navigator) {
           console.log("Available");
@@ -72,7 +84,7 @@ export const AddImage = () => {
           console.log("Not Available");
         }
       }
-      componentDidMount();
+      //componentDidMount();
       
 
     function previewFile() {
