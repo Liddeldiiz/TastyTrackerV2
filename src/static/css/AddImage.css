@@ -1,0 +1,22 @@
+.div-add-image-body {
+    min-width: 100vw;
+    min-height: 100vh;
+    margin-top: 15px;
+}
+
+.div-header {
+    margin: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-image-title {
+    color: white;
+}
+
+.images-flex-container {
+    margin: 10px;
+    padding: 3px;
+    border: none;
+    border-radius: none;
+}

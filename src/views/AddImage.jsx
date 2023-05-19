@@ -11,7 +11,8 @@ import Button from 'react-bootstrap/Button';
 
 import home_icon from '../static/images/home_icon.svg';
 
-import '../static/css/App.css';
+//import '../static/css/App.css';
+import '../static/css/AddImage.css';
 
 export const AddImage = () => {
 
@@ -151,12 +152,11 @@ export const AddImage = () => {
     <>
         <div className='div-add-image-body'>
             <div className='div-header'>
+                <h3 className='add-image-tilte'>Add Image</h3>
                 <a href='/'>
                     <img src={home_icon} id="home_icon" className='home-icon'/>
                 </a>
-                <p>
-                    add image page
-                </p>
+                
             </div>
             <hr />
             <form className='upload-image-form' onSubmit={handleSubmit}>
