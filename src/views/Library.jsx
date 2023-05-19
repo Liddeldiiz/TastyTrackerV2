@@ -11,7 +11,7 @@ import filter_icon from '../static/images/filter_icon.png';
 import { useState, useEffect } from 'react';
 
 // import '../static/css/Library.css';
-import { Row } from 'react-bootstrap';
+import {Carousel, Row} from 'react-bootstrap';
 
 
 export const Library = () => {
@@ -114,18 +114,19 @@ export const Library = () => {
               <h3> images </h3>
               <div className='div-images'>
                 <div className='images-container'>
-                  {emptyImageList ? (
-                      <>
-                          <h3>
-                              No images added yet
-                          </h3>
-                      </>
-                  ) : 
-                  imageList.map((url) => {
-                  return <img src={url} alt='img' className='home-page-images'/>
-                  })}
+                    <Carousel>
+                        {emptyImageList ? (
+                          <>
+                              <h3>
+                                  No images added yet
+                              </h3>
+                          </>
+                      ) :
+                      imageList.map((url) => {
+                      return <Carousel.Item><img src={url} alt='img' className='home-page-images'/></Carousel.Item>
+                      })}
+                    </Carousel>
                 </div>
-
               </div>
             </div>
 
