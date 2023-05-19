@@ -26,7 +26,7 @@ export const GetImages = ( props ) => {
   const [isUserLoading, setIsUserLoading] = useState(false);
   
 
-
+  const urlList = [];
 
   useEffect(() => {
     console.log("GetImagesV2: useEffect");
@@ -194,7 +194,14 @@ export const GetImages = ( props ) => {
         <Carousel>
         
         {imageList.map((url) => {
-          return <Carousel.Item><img src={url} alt='img' className='home-page-images'/></Carousel.Item>
+          
+          if(urlList.includes(url)) {
+            return null;
+          } else {
+            urlList.push(url);
+            return <Carousel.Item><img src={url} alt='img' className='home-page-images'/></Carousel.Item>
+          }
+          
         })}
         
         </Carousel>}

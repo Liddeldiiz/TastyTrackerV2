@@ -1,10 +1,11 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useState, useContext} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GeoPoint } from 'firebase/firestore';
 
 import { GetTags } from '../components/GetTags';
 import { uploadImage } from '../components/UploadImageV2';
 import { GeoLocation } from '../components/GeoLocation';
+import { UserContext } from '../App';
 
 import Button from 'react-bootstrap/Button';
 
@@ -13,6 +14,8 @@ import home_icon from '../static/images/home_icon.svg';
 import '../static/css/App.css';
 
 export const AddImage = () => {
+
+    const { setRefreshKey } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -137,8 +140,11 @@ export const AddImage = () => {
         //console.log("image: ", imageFile); -- not null
         // upload the picture to the db with the gathered information
         // I need to access the functions defined in UploadImage from here
-        let upload_done = await uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
-        navigate('/', {state: {status: upload_done}});
+        await uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
+        setRefreshKey((prevKey) => prevKey + 1 ); 
+        //let result = await uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
+        //console.log("addImage: result: ", result);
+        navigate('/');
     }
 
     return(

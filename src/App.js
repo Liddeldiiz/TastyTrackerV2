@@ -19,6 +19,7 @@ export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0); 
 
   const pullUserCredentials = (data) => {
     setUser(data);
@@ -28,7 +29,8 @@ function App() {
       <div className='App'>
         <UserContext.Provider value={{
           user, setUser,
-          email, setEmail
+          email, setEmail,
+          refreshKey, setRefreshKey
           }}>
           <Router>
             <Routes>

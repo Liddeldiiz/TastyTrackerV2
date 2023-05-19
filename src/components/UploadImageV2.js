@@ -8,6 +8,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 
 export function uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note) {
+    
 
     const showCurrentUser = () => {
 
@@ -49,7 +50,19 @@ export function uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note
         console.log("image uploaded");
         
         alert("image uploaded");
+        //navigate('/');
+        return 1;
+
     });
-    return true;
+    return 1;
 }
 
+
+
+/*
+
+const handleRefresh = () => {
+    setRefreshKey((prevKey) => prevKey + 1);
+  }
+
+*/

@@ -18,7 +18,7 @@ import '../static/css/Home.css';
 
 
 export const Home = () => {
-  const { user } = useContext(UserContext);
+  const { refreshKey } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -41,8 +41,9 @@ export const Home = () => {
       }
     })
     console.log("home: user: ", newUser);
+    console.log("refreshKey: ", refreshKey);
 
-  }, [navigate, newUser, location.state?.status])
+  }, [navigate, newUser, refreshKey])
 
   function onSelectedImage( event ) {
         
