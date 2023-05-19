@@ -1,28 +1,14 @@
 .App {
   text-align: center;
   display: flex;
-  min-height: 100vh;
+  min-height: 100%;
   align-items: center;
   justify-content: center;
   /*background-image: linear-gradient(79deg, #2a2ef8, #60c3db 48%, #a9c8e0);*/
   background-color: rgb(25, 25, 25);
+  background-size: contain;
   color: white;
   width: 27rem;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-hr {
-  max-width: auto;
 }
 
 .app-header {
@@ -31,10 +17,25 @@ hr {
   flex-direction: row;
   align-content: center;
   width: auto;
-  
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.app-page {
+  min-width: 90%;
+}
+
+.app-body {
+  align-items: center;
+  justify-content: center;
+}
+
+hr {
+  max-width: auto;
+}
+
+
 
 .app-home-icon {
   justify-content: left;
@@ -49,17 +50,21 @@ hr {
 }
 
 .lib-img {
-  position: absolute;
-  display: block;
+
 }
 
-.lib-desc {
+.lib-div {
+  display: flex;
+}
+
+.lib-desc {/*
   position: relative;
   display: block;
   margin-left: -20rem;
   align-content: center;
   justify-content: center;
-  text-decoration: none;
+  text-decoration: none;*/
+  justify-self: end;
 }
 
 .uploads {
@@ -156,11 +161,13 @@ button {
   width: 200px;
   height: 200px;
   display: flex;
+  object-fit: contain;
 }
 
 .home-page-images {
   width: 200px;
   height: 200px;
+  object-fit: contain;
 }
 
 .upload-image {

@@ -109,7 +109,9 @@ export const Home = () => {
 
       <div className='app-body'>
         <hr />
-        <a href='./library'><img src={folder_icon} className='lib-img'/><h3 className='lib-desc'>Library</h3> </a>
+
+        <a href='./library' className='lib-div'><img src={folder_icon} className='lib-img'/><h3 className='lib-desc'>Library</h3> </a>
+
         <hr />
           <div className='uploads'>
             <div className='images-flex-container'>
@@ -125,6 +127,7 @@ export const Home = () => {
             <GetImages formattedStartDate={box2[0]} formattedEndDate={box2[1]}/>
 
           </div>
+          <br />
           <hr />
         </div>
 
@@ -134,6 +137,7 @@ export const Home = () => {
             <GetImages formattedStartDate={box3[0]} formattedEndDate={box3[1]}/>
 
           </div>
+          <br />
           <hr />
         </div>
         
