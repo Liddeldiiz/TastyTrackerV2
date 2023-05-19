@@ -8,7 +8,7 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 
-import '../static/css/App.css';
+import '../static/css/GetImagesV2.css';
 import LoadingSpinner from './LoadingSpinner';
 import { Carousel } from 'react-bootstrap';
 

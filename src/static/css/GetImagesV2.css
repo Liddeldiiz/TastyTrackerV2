@@ -1,0 +1,15 @@
+.home-page-images {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    /*border: 1px solid white;*/
+}
+  
+.upload-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.no-image-info {
+    margin: 15px;
+}
