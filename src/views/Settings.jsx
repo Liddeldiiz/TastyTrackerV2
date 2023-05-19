@@ -43,8 +43,25 @@ export const Settings = () => {
       { value: 30, label: '30 min'},
       { value: 60, label: '60 min'},
     ]
-
     
+
+    const customStyles = {
+      option: (defaultStyles, state) => ({
+        ...defaultStyles,
+        color: state.isSelected ? "#fff" : "#fff",
+        backgroundColor: state.isSelected ? "#356d54" : "#191919",
+        borderColor: "none"
+      }),
+
+      control: (defaultStyles) => ({
+        ...defaultStyles,
+        backgroundColor: "#356d54",
+        padding: "10px",
+        border: "none",
+        boxShadow: "none"
+      }),
+      singleValue: (defaultStyles) => ({ ...defaultStyles, color: "fff" }),
+    };
 
     onAuthStateChanged(auth, (currentUser) => {
       
@@ -205,7 +222,10 @@ export const Settings = () => {
                   id='mealsPerDay'
                   name='mealsPerDay'/>
 
-                  <Select options={options} onChange={handleSelect}/>
+                  <Select
+                  styles={customStyles}
+                  options={options} 
+                  onChange={handleSelect}/>
 
                   <Button type="submit" className="my-button">Save</Button>
                   <p> Time before notifications </p>

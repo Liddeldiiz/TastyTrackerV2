@@ -78,7 +78,7 @@ button {
 */
 button {
   border: none;
-  background-color: #40916C;
+  background-color: #356d54;
   padding: 20px;
   border-radius: 50px;
   cursor: pointer;
@@ -87,7 +87,8 @@ button {
 
 .my-button {
   border: none;
-  background-color: #40916C;
+  background-color: #356d54;
+  margin-top: 20px;
   padding: 20px;
   border-radius: 50px;
   cursor: pointer;

@@ -25,3 +25,9 @@
     margin-left: 32vw;
     padding: 15px;
 }
+
+.custom-select {
+    color: #fa0606;
+    background-color: #000000;
+    border-color: #000000;
+}
