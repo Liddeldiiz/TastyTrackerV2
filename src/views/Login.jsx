@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { UserContext } from '../App';
 
+import '../static/css/Login.css';
+
 // spinner for loading...
 
 
@@ -80,27 +82,33 @@ export const Login = () => {
 
 
     return (
-        <div className="auth-form-container">
-        <form className="login-form" onSubmit={handleSubmit}>
-            <input 
-            onChange={(e) => setEmail(e.target.value)} 
-            type="email" 
-            placeholder="your email" 
-            id="email" 
-            name="email"/>
+        <div className='login-page'>
+            <h3 className='app-name'> TastyTracker </h3>
+            <div className="auth-form-container">
+            <form className="login-form" onSubmit={handleSubmit}>
+                <input 
+                onChange={(e) => setEmail(e.target.value)} 
+                type="email" 
+                placeholder="your email" 
+                id="email" 
+                name="email"/>
 
-            <input 
-            onChange={(e) => setPassword(e.target.value)} 
-            type="password" 
-            placeholder="your password" 
-            id="password" 
-            name="password"/>
+                <input 
+                onChange={(e) => setPassword(e.target.value)} 
+                type="password" 
+                placeholder="your password" 
+                id="password" 
+                name="password"/>
 
-            <button type="submit"> Login </button>
-        </form>
-        <button onClick={redirectSignIn}>Sign in</button>
-        <button onClick={logInWithGoogle}>Log in with Google</button>
-        <button onClick={signInWithFacebook}>Sign in with Facebook</button>
+                <button type="submit" className='login-page-button'> Login </button>
+            </form>
+            
+            <button onClick={logInWithGoogle} className='login-page-button'>Log in with Google</button>
+            <button onClick={signInWithFacebook} className='login-page-button'>Log in with Facebook</button>
+            <p>No account yet? <a href="/register" className='to-register'>click here</a></p>
+            { /* <button onClick={redirectSignIn}>Sign in</button> */ }
+            </div>
+            
         </div>
     )
 }
