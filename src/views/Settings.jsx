@@ -23,6 +23,8 @@ import settings_icon from '../static/images/settings_icon.svg';
 import Button from 'react-bootstrap/Button';
 import LoadingSpinner from "../components/LoadingSpinner";
 
+import '../static/css/Settings.css';
+
 export const Settings = () => {
 
   const navigate = useNavigate();
@@ -165,20 +167,20 @@ export const Settings = () => {
 
     return (
 
-      <div>
-        <div>
-          <img src={settings_icon} className='settings-img' />
-          <h3 className='settings-img'> Settings </h3>
+      <div className="settings-page">
+        <div className="settings-header">
+          { /*<img src={settings_icon} className='settings-img' /> */ }
+          
+          <h3 className='welcome-user'>Hi, {newUser.email}</h3>
           <a href='/' className='home-img'>
             <img src={home_icon}/>
           </a>
         </div>
 
-        <div className='app-body'>
-          <p> This is the app body. </p>
+        <div className='settings-body'>
             {isLoading ? <LoadingSpinner /> : (
               <div>
-              <h3 className='welcome-user'>Hi, {newUser.email}</h3>
+              <h3 className='settings-title'> Settings </h3>
 
               <div className='user-settings'>
                 <form onSubmit={handleSubmit}>
@@ -214,23 +216,17 @@ export const Settings = () => {
                 </form>
 
               </div>
-              <div className='uploads'>
-                <h3> images </h3>
-              </div>
               
-              <div className='uploads'>
-                <h3> images </h3>
-              </div>
               </div>
             )}
 
           </div>
           
 
-        <div className='app-footer'>
-          <p> This is the app footer. </p>
+        <div className='settings-footer'>
+
           <Logout />
-          <Delete />
+          { /* <Delete /> */ }
         </div>
     </div>);
 }
