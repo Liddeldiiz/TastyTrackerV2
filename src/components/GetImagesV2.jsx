@@ -168,19 +168,19 @@ export const GetImages = ( props ) => {
   
 
   return (
-    <a href='asdf'>
+    
       <div className='images-container'>
-      <Carousel>
+      
         {imageListEmpty ? (
           isToday ? (
             <>
-              <h3> 
+              <h3 className='no-image-info'> 
                 Add your first meal of the day 
               </h3>
             </>
             ) : (
             <>
-              <h3> 
+              <h3 className='no-image-info'> 
                 No meals were added that day 
               </h3>
             </>
@@ -188,16 +188,18 @@ export const GetImages = ( props ) => {
         ) : 
         loader ? 
         
-        <LoadingSpinner /> :
         
-        imageList.map((url) => {
+        <LoadingSpinner /> :
+
+        <Carousel>
+        
+        {imageList.map((url) => {
           return <Carousel.Item><img src={url} alt='img' className='home-page-images'/></Carousel.Item>
         })}
         
-        </Carousel>
+        </Carousel>}
       </div>
       
-    </a>
   );
 }
 

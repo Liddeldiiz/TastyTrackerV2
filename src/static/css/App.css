@@ -67,14 +67,7 @@ hr {
   justify-self: end;
 }
 
-.uploads {
-  position: relative;
-  display: block;
-}
 
-.App-link {
-  color: #61dafb;
-}
 
 .auth-form-container, .login-form, .register-form {
   display: flex;
@@ -148,20 +141,38 @@ button {
   text-decoration: underline;
 }
 
+.uploads {
+  display: flex;
+  justify-content: center;
+}
+
 .images-flex-container {
-  width: 200px;
-  height: 200px;
-  margin: 3px;
+  width: 300px;
+  height: 300px;
+  margin: 10px;
   padding: 3px;
   border: red;
   border-radius: 2rem;
 }
 
 .images-container {
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   display: flex;
   object-fit: contain;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.carousel-inner {
+  align-items: center;
+  justify-self: center;
+}
+
+.no-image-info{
+  align-self: center;
+  justify-self: center;
 }
 
 .home-page-images {
