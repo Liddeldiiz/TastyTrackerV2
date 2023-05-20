@@ -1,6 +1,7 @@
 .app-page {
 
-    margin-top: 15px;
+    margin: 15px;
+    min-width: 100vw;
 }
 
 .app-header {
@@ -12,17 +13,12 @@
     justify-content: space-between;
     font-size: calc(10px + 2vmin);
     color: white;
+    margin: 15px;
 }
 
 .select-image-input {
     border: none;
 }
-
-/*
-hr {
-    max-width: auto;
-}
-*/
 
 
 /* Settings on Homepage */

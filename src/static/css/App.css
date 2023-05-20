@@ -16,11 +16,13 @@
 
 .app-page {
   min-width: 100vw;
+  
 }
 
 .app-body {
   align-items: center;
   justify-content: center;
+  margin: 15px;
 }
 
 .app-home-icon {

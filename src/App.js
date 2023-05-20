@@ -5,6 +5,7 @@ import { Login } from './views/Login';
 import { Register } from "./views/Register";
 import { Home } from './views/Home';
 import { Settings } from './views/Settings';
+import { NotificationSettings } from './views/NotificationSettings';
 import { Library } from './views/Library';
 import { AddImage } from './views/AddImage';
 import { ChangeUserName } from './views/ChangeUserName';
@@ -38,6 +39,7 @@ function App() {
               <Route path="/" element={<Home />}/>
               <Route path="/register" element={<Register />}/>
               <Route path="/settings" element={<Settings />} />
+              <Route path="/notificationSettings" element={<NotificationSettings />}/>
               <Route path="/library" element={<Library />} />
               <Route path="/addImage" element={<AddImage />} />
               <Route path="/changeUserName" element={<ChangeUserName />} />

@@ -35,6 +35,8 @@ export const Settings = () => {
   const [mealsPerDay, setMealsPerDay] = useState("");
   const [userChoice, setUserChoice] = useState("");
   const [documentReference, setDocumentReference] = useState();
+  
+  var isMealsPerDay = false;
 
     var options = [
       { value: 5, label: '5 min'},
@@ -63,22 +65,34 @@ export const Settings = () => {
       singleValue: (defaultStyles) => ({ ...defaultStyles, color: "fff" }),
     };
 
-    onAuthStateChanged(auth, (currentUser) => {
-      
-      setNewUser(currentUser);
-    });
+    
     
     useEffect(() => {
+      console.log("checking if user is loaded");
+      onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+          setNewUser(currentUser);
+          console.log("checking user data in db")
+          getDataFromDb();
+        }
+        
+        
+      });
+      
+      /*
       if(!checkNeededData()) {
         setIsLoading(true);
+        console.log("user is loaded");
       } else {
         setIsLoading(false);
+        console.log("user is not loaded");
+        
       }
       if (isLoading) {
-        
+        console.log("checking user data in db")
         getDataFromDb();
       }
-      
+      */
     }, [newUser])
 
     const checkNeededData = () => {
@@ -117,7 +131,7 @@ export const Settings = () => {
 
     const handleSubmit = () => {
       if(tempUserName === "") {
-        tempUserName = queryResults[0].userName;
+        tempUserName = queryResults[0].username;
       }
       if(tempEmail === "") {
         console.log("taking existing email address");
@@ -129,25 +143,30 @@ export const Settings = () => {
       if(tempChoice === "") {
         tempChoice = queryResults[0].notifications;
       }
-      const docRef = doc(db, 'users', documentReference);
+      //const docRef = doc(db, 'users', documentReference);
 
       const data = {
         username: tempUserName,
         userId: newUser.uid,
         email: tempEmail,
         mealsPerDay: tempMeals,
-        notifications: tempChoice
+        notifications: tempChoice,
+        documentReference: documentReference
       };
-
+      /*
       setDoc(docRef, data)
         .then(docRef => {
             console.log("document has been updated successfully");
         })
         .catch(error => {
             console.log(error);
-        })
-        navigate('/');
+        })*/
+        navigate('/notificationSettings', {state: {data: data}});
+        //navigate("/addImage", {state:{image: tempImg}});
     }
+
+    
+
     const gatherInfo = () => {
       console.log("gathering data...");
       console.log("username: ", tempUserName);
@@ -170,11 +189,15 @@ export const Settings = () => {
       tempEmail = e.target.value;
     }
     
-    var tempMeals = 0;
+    var tempMeals;
     const handleMealsChange = (e) => {
       e.preventDefault();
+      //setMealsPerDay(e.target.value);
+      
+      //console.log(tempMeals)
       tempMeals = e.target.value;
-    }
+      
+      }
 
     var tempChoice;
     const handleSelect = (e) => {
@@ -182,17 +205,6 @@ export const Settings = () => {
       tempChoice = e.value;
     }
 
-    const renderMealTimeSettings = () => {
-      for(let i = 0; i < tempMeals; i++) {
-        return(
-        <>
-          <label for="meal-time">
-              Choose time for meal nr: {i}
-          </label>
-          <input id="meal-time" type="time" name="meal-time" />  
-        </>)
-      }
-    }
 
     return (
 
@@ -212,7 +224,7 @@ export const Settings = () => {
               <h3 className='settings-title'> Settings </h3>
 
               <div className='user-settings'>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="settings-form">
                   <input 
                   onChange={handleUserNameChange}
                   type='text'
@@ -234,14 +246,14 @@ export const Settings = () => {
                   id='mealsPerDay'
                   name='mealsPerDay'/>
 
-                  {renderMealTimeSettings}
+                  
 
                   <Select
                   styles={customStyles}
                   options={options} 
                   onChange={handleSelect}/>
 
-                  <Button type="submit" className="my-button">Save</Button>
+                  <Button type="submit" className="my-button">Next</Button>
                   <p> Time before notifications </p>
 
                   <div className="notification-settings">
