@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import addNotification from 'react-push-notification';
+
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Button } from 'react-bootstrap';
 
 import { db } from '../config/Firebase';
 import { collection, query, where, onSnapshot, doc, setDoc } from 'firebase/firestore';
+
+import logo from '../static/images/logo.svg';
 
 export const NotificationSettings = () => {
     const navigate = useNavigate();
@@ -70,12 +74,26 @@ export const NotificationSettings = () => {
         //console.log("Time values: ", timeValues);
         setDoc(docRef, finalData)
             .then(docRef => {
-                alert("Settings have been updated successfully");
+                addNotification({
+                    title: 'TastyTracker',
+                    message: 'Settings have been updated successfully',
+                    duration: 4000,
+                    icon: logo, // custom logo would be nice
+                    native: true,
+                })
             })
             .catch(error => {
                 alert("An error has occured while trying to upadet the settings", error);
+                addNotification({
+                    title: 'TastyTracker',
+                    message: `An error has occured while trying to upadet the settings, ${error}`,
+                    duration: 4000,
+                    icon: logo, // custom logo would be nice
+                    native: true,
+                })
             });
         navigate('/');
+        
     }
 
     const test = () => {

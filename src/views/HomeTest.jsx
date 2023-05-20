@@ -18,7 +18,7 @@ import '../static/css/Home.css';
 
 
 export const Home = () => {
-  const { refreshKey, setNextAlarm } = useContext(UserContext);
+  const { refreshKey } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ export const Home = () => {
   const [sortedTimeValues, setSortedTimeValues] = useState();
   const [notification, setNotification] = useState();
   const [currentTime, setCurrentTime] = useState();
-  //const [nextAlarm, setNextAlarm] = useState();
+  const [nextAlarm, setNextAlarm] = useState();
   const [milisecToAlarm, setMiliSecToAlarm] = useState();
   
 
@@ -55,14 +55,11 @@ export const Home = () => {
 
     if (newUser) {
       getDataFromDb();
-      
     }
-
-    
     console.log("home: user: ", newUser);
-    //console.log("refreshKey: ", refreshKey);
+    console.log("refreshKey: ", refreshKey);
 
-  }, [navigate, newUser])
+  }, [navigate, newUser, refreshKey])
 
   
   useEffect(() => {
@@ -92,10 +89,10 @@ export const Home = () => {
   }
 
   const queryResults = [];
-  const getDataFromDb = async () => {
+  const getDataFromDb = () => {
     try {
 
-      console.log("inside getDataFromDB: user id: ", newUser.uid);
+      console.log(newUser.uid);
       const colRef = collection(db, 'users');
       const q = query(colRef, where('userId', '==', newUser.uid)); // this user.uid is undefined
 
@@ -108,12 +105,33 @@ export const Home = () => {
           })
           setDocumentReference(queryResults[0].id);
           setTimeValues(queryResults[0].timeValues);
-          setNotification(queryResults[0].notifications);
+          setNotification(queryResults[0].notifications)
       });
 
-      sortTimeValuesAndSetAlarm();
+      const tempSorted = timeValues.sort((a, b) => {
+        const timeA = new Date(`2000-01-01T${a}`);
+        const timeB = new Date(`2000-01-01T${b}`);
+        return timeA - timeB;
+      });
 
-  
+      setSortedTimeValues(tempSorted);
+
+      
+      
+      // Sort the time values based on the time differences
+      const nearestSortedTimeValues = timeValues.sort((a, b) => {
+        return getTimeDifference(a) - getTimeDifference(b);
+      });
+      
+      // The nearest time value is the first value in the sorted array
+      const nearestTimeValue = nearestSortedTimeValues[0];
+      
+      console.log("nearest time value from arr: ", nearestTimeValue);
+      setNextAlarm(nearestTimeValue);
+      let interval = getTimeDifference(nearestTimeValue);
+      setMiliSecToAlarm(interval);
+      //console.log("the interval until next alarm is: ", interval);
+
       const currentDate = new Date();
 
       const currentHour = currentDate.getHours();
@@ -127,40 +145,6 @@ export const Home = () => {
     }
   }
   
-
-  const sortTimeValuesAndSetAlarm = () => {
-    console.log("timeValues:", timeValues);
-    const tempSorted = timeValues.sort((a, b) => {
-      const timeA = new Date(`2000-01-01T${a}`);
-      const timeB = new Date(`2000-01-01T${b}`);
-      return timeA - timeB;
-    });
-
-    setSortedTimeValues(tempSorted);
-
-    // Sort the time values based on the time differences
-    /*const nearestSortedTimeValues = timeValues.sort((a, b) => {
-      return getTimeDifference(a) - getTimeDifference(b);
-    });*/
-
-    const currentDate = new Date();
-
-    const nearestSortedTimeValues = timeValues
-      .filter(timeValue => getTimeDifference(timeValue) >= 0) // Filter out time values in the past
-      .sort((a, b) => getTimeDifference(a) - getTimeDifference(b));
-  
-    const nearestNextTimeValue = nearestSortedTimeValues[0];
-    
-    // The nearest time value is the first value in the sorted array
-    const nearestTimeValue = nearestSortedTimeValues[0];
-    
-    console.log("nearest time value from arr: ", nearestNextTimeValue);
-    setNextAlarm(nearestTimeValue);
-    let interval = getTimeDifference(nearestTimeValue);
-    setMiliSecToAlarm(interval);
-    //console.log("the interval until next alarm is: ", interval)
-  }
-
   const currentTimeForFunc = new Date(); // Get the current time
 
   function getTimeDifference(timeValue) {
@@ -168,23 +152,6 @@ export const Home = () => {
     const time = new Date();
     time.setHours(hours, minutes, 0, 0);
     return Math.abs(time - currentTimeForFunc);
-  }
-
-  function getTimeDifferenceForAlarm(timeValue) {
-    const [hours, minutes] = timeValue.split(":");
-    const currentTime = new Date(); // Get the current time
-  
-    // Create a new Date object for the specified time value
-    const targetTime = new Date(currentTime);
-    targetTime.setHours(hours, minutes, 0, 0);
-  
-    // If the target time is in the past, move it to the next day
-    if (targetTime < currentTime) {
-      targetTime.setDate(targetTime.getDate() + 1);
-    }
-  
-    // Calculate the time difference in milliseconds
-    return targetTime - currentTime;
   }
 
   /////////////////////////// Date Formating ///////////////////////////

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Select from 'react-select';
 import { useNavigate } from "react-router-dom";
 /*
@@ -25,7 +24,11 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 import '../static/css/Settings.css';
 
+import { UserContext } from '../App';
+
 export const Settings = () => {
+
+  const { nextAlarm } = useContext(UserContext);
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -254,7 +257,7 @@ export const Settings = () => {
                   onChange={handleSelect}/>
 
                   <Button type="submit" className="my-button">Next</Button>
-                  <p> Time before notifications </p>
+                  {!nextAlarm ? (<p> Please finish the setup process </p>) : <p> Next notification: {nextAlarm}</p>} 
 
                   <div className="notification-settings">
                     <p> notification settings</p>

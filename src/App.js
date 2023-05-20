@@ -20,6 +20,7 @@ export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
+  const [nextAlarm, setNextAlarm] = useState();
   
 
   const pullUserCredentials = (data) => {
@@ -31,7 +32,7 @@ function App() {
         <UserContext.Provider value={{
           user, setUser,
           email, setEmail,
-          
+          nextAlarm, setNextAlarm
           }}>
           <Router>
             <Routes>

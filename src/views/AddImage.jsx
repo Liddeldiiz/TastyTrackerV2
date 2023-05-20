@@ -1,5 +1,7 @@
 import { useEffect, useState, useContext} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import addNotification from 'react-push-notification';
+
 import { GeoPoint } from 'firebase/firestore';
 
 import { GetTags } from '../components/GetTags';
@@ -10,9 +12,11 @@ import { UserContext } from '../App';
 import Button from 'react-bootstrap/Button';
 
 import home_icon from '../static/images/home_icon.svg';
+import logo from '../static/images/logo.svg';
 
 //import '../static/css/App.css';
 import '../static/css/AddImage.css';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export const AddImage = () => {
 
@@ -35,6 +39,7 @@ export const AddImage = () => {
     const [longitude, setLongitude] = useState();
     const [geoLocation, setGeoLocation] = useState();
     const [isGeo, setIsGeo] = useState(false);
+    const [isUploading, setUploading] = useState(false);
 
 
     const imageArr = [];
@@ -170,15 +175,29 @@ export const AddImage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setUploading(true);
         
       
         try {
           await uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note);
-          alert('Image uploaded successfully');
           navigate('/');
+          addNotification({
+            title: 'TastyTracker',
+            message: 'Image uploaded successfully',
+            duration: 4000,
+            icon: logo, // custom logo would be nice
+            native: true,
+        })
+        setUploading(false);
         } catch (error) {
-          alert('Error uploading image: ' + error.message);
+          addNotification({
+            title: 'TastyTracker',
+            message: `Error uploading image: ${error.message}`,
+            duration: 4000,
+            icon: logo, // custom logo would be nice
+            native: true,
+        })
+        setUploading(false);
         }
       };
 
@@ -219,6 +238,7 @@ export const AddImage = () => {
                     </div>
                     { /* <div className='div-upload-component'> */ }
                     <button type="submit">Add</button>
+                    {isUploading ? <LoadingSpinner /> : null}
                         
                     { /* </div> */ }
                 </div>

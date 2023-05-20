@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react';
+import addNotification from 'react-push-notification';
+
 import { auth, googleProvider} from '../config/Firebase';
 import { 
         signInWithEmailAndPassword,
@@ -10,6 +12,8 @@ import { toast } from "react-toastify";
 import { UserContext } from '../App';
 
 import '../static/css/Login.css';
+
+import logo from '../static/images/logo.svg';
 
 // spinner for loading...
 
@@ -36,6 +40,13 @@ export const Login = () => {
                 console.log(user.uid);
                 setLoading(false);
                 navigate("/");
+                addNotification({
+                    title: 'TastyTracker',
+                    message: 'Login successful',
+                    duration: 4000,
+                    icon: logo, // custom logo would be nice
+                    native: true,
+                })
             })
         } catch(err) {
             const errorMessage = err.message;
@@ -52,6 +63,13 @@ export const Login = () => {
               setLoading(false);
   
               navigate('/');
+              addNotification({
+                title: 'TastyTracker',
+                message: 'Login successful',
+                duration: 4000,
+                icon: logo, // custom logo would be nice
+                native: true,
+            })
             });
         } catch(err) {
             console.error(err);
