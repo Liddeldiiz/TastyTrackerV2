@@ -115,13 +115,11 @@ export const GetImages = ( props ) => {
   }, []);
 
   return (
-    <a href='asdf'>
       <div className='images-container'>
         {imageList.map((url) => {
           return <img src={url} alt='img' className='home-page-images'/>
         })}
       </div>
-    </a>
   );
 }
 
