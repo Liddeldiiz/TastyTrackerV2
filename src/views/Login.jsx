@@ -58,7 +58,7 @@ export const Login = () => {
         }
       };
 
-    const signInWithFacebook = async ()=>{
+    /*const signInWithFacebook = async ()=>{
         const provider = new FacebookAuthProvider();
         await signInWithPopup(auth, provider)
         .then((userCredential)=> {
@@ -69,7 +69,7 @@ export const Login = () => {
         .catch((err)=>{
             console.log(err.message);
         })
-    };
+    };*/
 
 
       const redirectLogin = async => {
@@ -104,7 +104,7 @@ export const Login = () => {
             </form>
             
             <button onClick={logInWithGoogle} className='login-page-button'>Log in with Google</button>
-            <button onClick={signInWithFacebook} className='login-page-button'>Log in with Facebook</button>
+            {/*<button onClick={signInWithFacebook} className='login-page-button'>Log in with Facebook</button>*/}
             <p>No account yet? <a href="/register" className='to-register'>click here</a></p>
             { /* <button onClick={redirectSignIn}>Sign in</button> */ }
             </div>
