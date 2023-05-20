@@ -33,10 +33,20 @@ export const AddImage = () => {
     const [ note, setNote ] = useState("");
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
+    const [geoLocation, setGeoLocation] = useState();
+    const [isGeo, setIsGeo] = useState(false);
 
 
     const imageArr = [];
     const d = new Date();
+
+    useEffect(() => {
+        if (latitude !== undefined && longitude !== undefined) {
+            setGeoLocation(new GeoPoint(latitude, longitude));
+            console.log("setting isGeo: true");
+            setIsGeo(true);
+        }
+    }, [latitude, longitude])
 
     //////// useEffect is triggered by any change in the imageFile and location.state.image ////////
     useEffect(() => {
@@ -79,24 +89,9 @@ export const AddImage = () => {
         } else {
             alert('Geolocation is not supported');
         }
-/*
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-              //console.log("Latitude is: ", position.coords.latitude);
-              setLatitude(position.coords.latitude);
-              //console.log("Longitude is: ", position.coords.longitude);
-              setLongitude(position.coords.longitude);
-            },
-            (error) => {
-                alert("error retrieving geolocation: ", error);
-                }
-            );
-          } else {
-            alert("Not Available");
-          }*/
     }, [])
 
-    const geoLocation = latitude && longitude ? new GeoPoint(latitude, longitude) : null;
+    //const geoLocation = latitude && longitude ? new GeoPoint(latitude, longitude) : null;
 
     const requestGeolocationPermission = () => {
         navigator.geolocation.getCurrentPosition(
@@ -114,8 +109,8 @@ export const AddImage = () => {
     const getCurrentLocation = () => {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
             // Use the obtained latitude and longitude values
             alert('Current location:', latitude, longitude);
           },
@@ -219,11 +214,11 @@ export const AddImage = () => {
                             
                     </div>
                     <div className='div-location'>
-                        Location: {latitude}, {longitude}
+                        Location: {isGeo ? (<><p>{geoLocation.latitude}, {geoLocation.longitude}</p></>) : (<><p>loading...</p></>)}
                         
                     </div>
                     { /* <div className='div-upload-component'> */ }
-                    <Button type="submit">Add</Button>
+                    <button type="submit">Add</button>
                         
                     { /* </div> */ }
                 </div>
