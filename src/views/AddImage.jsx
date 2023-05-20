@@ -29,7 +29,7 @@ export const AddImage = () => {
 
     const [ selectedTag, setSelectedTag ] = useState();
     const [ timeStamp, setTimeStamp] = useState();
-    const [ geoLocation, setGeoLocation ] = useState(); // location of user
+    //const [ geoLocation, setGeoLocation ] = useState(); // location of user
     const [ note, setNote ] = useState("");
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
@@ -60,33 +60,76 @@ export const AddImage = () => {
 
     useEffect(() => {
         if ("geolocation" in navigator) {
-            console.log("Available");
-            navigator.geolocation.getCurrentPosition(function(position) {
-              console.log("Latitude is: ", position.coords.latitude);
+            //console.log("Available");
+
+            navigator.permissions
+                .query({ name: 'geolocation'})
+                .then((permissionStatus) => {
+                    if (permissionStatus.state === 'granted') {
+                        getCurrentLocation();
+                    } else if (permissionStatus.state === 'prompt') {
+                        requestGeolocationPermission();
+                    } else {
+                        handleGeolocationPermissionDenied();
+                    }
+                })
+                .catch((error) => {
+                    alert('Error querying geolocation permission: ', error);
+                });
+        } else {
+            alert('Geolocation is not supported');
+        }
+/*
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+              //console.log("Latitude is: ", position.coords.latitude);
               setLatitude(position.coords.latitude);
-              console.log("Longitude is: ", position.coords.longitude);
+              //console.log("Longitude is: ", position.coords.longitude);
               setLongitude(position.coords.longitude);
-            });
+            },
+            (error) => {
+                alert("error retrieving geolocation: ", error);
+                }
+            );
           } else {
-            console.log("Not Available");
-          }
+            alert("Not Available");
+          }*/
     }, [])
 
-    function componentDidMount() {
-        if ("geolocation" in navigator) {
-          console.log("Available");
-          navigator.geolocation.getCurrentPosition(function(position) {
-            console.log("Latitude is: ", position.coords.latitude);
-            latitude = position.coords.latitude;
-            console.log("Longitude is: ", position.coords.longitude);
-            longitude = position.coords.longitude;
-          })
-        } else {
-          console.log("Not Available");
-        }
+    const geoLocation = latitude && longitude ? new GeoPoint(latitude, longitude) : null;
+
+    const requestGeolocationPermission = () => {
+        navigator.geolocation.getCurrentPosition(
+          () => {
+            // Geolocation permission granted by the user
+            // Proceed with geolocation operations
+            getCurrentLocation();
+          },
+          (error) => {
+            alert('Error requesting geolocation permission:', error);
+          }
+        );
+      };
+
+    const getCurrentLocation = () => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            // Use the obtained latitude and longitude values
+            alert('Current location:', latitude, longitude);
+          },
+          (error) => {
+            alert('Error retrieving current location:', error);
+          }
+        );
+      };
+
+      const handleGeolocationPermissionDenied = () => {
+        // Geolocation permission denied or unavailable
+        // Handle the situation accordingly (e.g., display an error message)
+        alert('Geolocation permission denied or unavailable');
       }
-      //componentDidMount();
-      
 
     function previewFile() {
     
@@ -124,50 +167,25 @@ export const AddImage = () => {
         }
     }
 
-
-    const addImage = () => {
-        console.log("gathering data for upload...");
-        console.log("imageFile: ", imageFile);
-        console.log("selectedTag: ", selectedTag);
-        console.log("note: ", note);
-        console.log("timestamp: ", timeStamp);
-        console.log("geoLocation: ", geoLocation);
-
-        return (null);
-    }
-
     const pullDataFromTags = (data) => {
         setSelectedTag(data);
         console.log("data: ", data);
         console.log("selectedTag: ", selectedTag);
     }
 
-    const pullDataFromGeoLocation = (data) => {
-        setGeoLocation(data);
-        console.log("geoLocation: ", geoLocation);
-    }
-
     const handleSubmit = async (e) => {
-        console.log("handleSubmit"); // here is an uncaught (in promise) error: invalid hook call
         e.preventDefault();
-        let geoLocationVar = new GeoPoint(latitude, longitude);
-        //console.log("image: ", imageFile); -- not null
-        // upload the picture to the db with the gathered information
-        // I need to access the functions defined in UploadImage from here
-        //console.log("refreshKey before upload: ", refreshKey);
-        //setRefreshKey((prevKey) => prevKey + uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note));
-        //setRefreshKey((prevKey) => prevKey + 1 ); 
-        //console.log("refreshKey after upload: ", refreshKey);
+        
+        
+      
         try {
-            await console.log("value retuned by uploadImage(): ", uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note));
-            navigate('/');
+          await uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note);
+          alert('Image uploaded successfully');
+          navigate('/');
         } catch (error) {
-            console.log("error in add image promise: ",error);
+          alert('Error uploading image: ' + error.message);
         }
-        //let result = await uploadImage(imageFile, timeStamp, geoLocationVar, selectedTag, note);
-        //console.log("addImage: result: ", result);
-        //navigate('/');
-    }
+      };
 
     return(
     <>
@@ -201,14 +219,13 @@ export const AddImage = () => {
                             
                     </div>
                     <div className='div-location'>
-                        Location:
+                        Location: {latitude}, {longitude}
                         
                     </div>
-                    <div className='div-upload-component'>
-                        {}
-                        <button type="submit">Add</button>
+                    { /* <div className='div-upload-component'> */ }
+                    <Button type="submit">Add</Button>
                         
-                    </div>
+                    { /* </div> */ }
                 </div>
             </form>
         </div>
@@ -216,19 +233,3 @@ export const AddImage = () => {
 }
 
 
-/*
-
-{geoLocation._lat === undefined && geoLocation._long === undefined ? (
-                        <>
-                            <p>loading</p>
-                        </>
-                        ) : (
-                        <>
-                            <br />
-                            <p>Latitude: </p>{geoLocation._lat}
-                            <br />
-                            <p>Longitude: </p>{geoLocation._long}
-                        </>
-    )}
-
-*/

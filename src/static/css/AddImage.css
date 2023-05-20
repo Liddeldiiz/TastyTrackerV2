@@ -20,3 +20,21 @@
     border: none;
     border-radius: none;
 }
+
+@media (min-width: 768px) {
+    /* Styles for tablets and larger screens */
+    
+    .div-header {
+      font-size: calc(12px + 2vmin); /* Adjust as needed */
+    }
+}
+  
+  @media (min-width: 992px) {
+    /* Styles for desktop screens */
+    
+    .div-add-image-body {
+      min-width: 100%; /* Adjust as needed */
+    }
+    
+    
+}

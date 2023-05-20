@@ -170,7 +170,7 @@ export const Settings = () => {
       tempEmail = e.target.value;
     }
     
-    var tempMeals;
+    var tempMeals = 0;
     const handleMealsChange = (e) => {
       e.preventDefault();
       tempMeals = e.target.value;
@@ -180,6 +180,18 @@ export const Settings = () => {
     const handleSelect = (e) => {
       //e.preventDefault();
       tempChoice = e.value;
+    }
+
+    const renderMealTimeSettings = () => {
+      for(let i = 0; i < tempMeals; i++) {
+        return(
+        <>
+          <label for="meal-time">
+              Choose time for meal nr: {i}
+          </label>
+          <input id="meal-time" type="time" name="meal-time" />  
+        </>)
+      }
     }
 
     return (
@@ -221,6 +233,8 @@ export const Settings = () => {
                   placeholder="Meals per day..."
                   id='mealsPerDay'
                   name='mealsPerDay'/>
+
+                  {renderMealTimeSettings}
 
                   <Select
                   styles={customStyles}

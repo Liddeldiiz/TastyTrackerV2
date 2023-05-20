@@ -1,14 +1,14 @@
 .app-page {
-    max-width: max-content;
+
     margin-top: 15px;
 }
 
 .app-header {
     background-color: #191919;
     display: flex;
-    flex-direction: row;
+    
     align-content: center;
-    width: auto;
+
     justify-content: space-between;
     font-size: calc(10px + 2vmin);
     color: white;
@@ -18,18 +18,20 @@
     border: none;
 }
 
+/*
 hr {
     max-width: auto;
 }
+*/
+
 
 /* Settings on Homepage */
 
 .settings-img {
-    position: relative;
+
     display: block;
     margin-left: auto;
-    align-content: right;
-    justify-content: right;
+    
 }
 
 /* Library on Homepage */
@@ -38,14 +40,8 @@ hr {
     display: flex;
 }
 
-.lib-desc {/*
-    position: relative;
-    display: block;
-    margin-left: -20rem;
-    align-content: center;
-    justify-content: center;
-    text-decoration: none;*/
-    justify-self: end;
+.lib-desc {
+    
 }
 
 /* images */
@@ -66,15 +62,16 @@ hr {
 .images-container {
     
     display: flex;
-    object-fit: contain;
+
     justify-content: center;
     align-items: center;
 }
   
   
 .carousel-inner {
-    width: 300px;
-    height: 300px;
+    width: auto;
+    max-width: 300px;
+    height: auto;
     align-items: center;
     justify-self: center;
 }
@@ -83,3 +80,27 @@ hr {
     align-self: center;
     justify-self: center;
 }
+
+@media (min-width: 768px) {
+    /* Styles for tablets and larger screens */
+    
+    .app-header {
+      font-size: calc(12px + 2vmin); /* Adjust as needed */
+    }
+  
+    .carousel-inner {
+      max-width: 500px; /* Adjust as needed */
+    }
+  }
+  
+  @media (min-width: 992px) {
+    /* Styles for desktop screens */
+    
+    .app-page {
+      min-width: 100%; /* Adjust as needed */
+    }
+    
+    .lib-desc {
+      /* Adjust as needed */
+    }
+  }
