@@ -115,9 +115,9 @@ export const Library = () => {
           </div>
           <h3> Welcome in your meal library! </h3>
           <div className='app-body'>
-            <p> This is the app body. </p>
+            {/*<p> This is the app body. </p> 
             <img src={filter_icon} className='filter-img' />
-            <p>Filter</p>
+            <p>Filter</p>*/}
             <div className='filter-options'>
               {/*
               <button> Day </button>
