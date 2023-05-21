@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import Select from 'react-select';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 /*
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";*/
@@ -23,14 +24,17 @@ import Button from 'react-bootstrap/Button';
 import LoadingSpinner from "../components/LoadingSpinner";
 
 import '../static/css/Settings.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { UserContext } from '../App';
+import { ToastBody } from "react-bootstrap";
 
 export const Settings = () => {
 
   const { nextAlarm } = useContext(UserContext);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [newUser, setNewUser] = useState({});
   const [userName, setUserName] = useState("");
@@ -67,6 +71,14 @@ export const Settings = () => {
       }),
       singleValue: (defaultStyles) => ({ ...defaultStyles, color: "fff" }),
     };
+
+    const notify = () => {
+      try {
+          toast(location.state.msg);
+      } catch (error) {
+          console.log("Error: ", error);
+      }
+  }
 
     
     
@@ -257,11 +269,14 @@ export const Settings = () => {
                   onChange={handleSelect}/>
 
                   <Button type="submit" className="my-button">Next</Button>
+                  { /*
                   {!nextAlarm ? (<p> Please finish the setup process </p>) : <p> Next notification: {nextAlarm}</p>} 
+
 
                   <div className="notification-settings">
                     <p> notification settings</p>
                   </div>
+            */}
                 </form>
 
               </div>
@@ -275,6 +290,7 @@ export const Settings = () => {
         <div className='settings-footer'>
 
           <Logout />
+          <ToastContainer />
           { /* <Delete /> */ }
         </div>
     </div>);

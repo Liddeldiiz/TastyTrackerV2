@@ -106,6 +106,9 @@ export const NotificationSettings = () => {
     const renderMealTimeSettings = () => {
         const mealTimeInputs = [];
         
+        if (mealsPerDay === 0) {
+            navigate('/settings', {state: {msg: '\"Meals per day\" cannot be 0'}});
+        }
   
         for(let i = 0; i < mealsPerDay; i++) {
             

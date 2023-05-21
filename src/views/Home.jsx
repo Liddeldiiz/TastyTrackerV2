@@ -14,6 +14,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { UserContext } from '../App';
 
 import plus_icon from '../static/images/plus_icon.svg';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '../static/css/Home.css';
 
