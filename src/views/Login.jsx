@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import addNotification from 'react-push-notification';
+//import addNotification from 'react-push-notification';
 
 import { auth, googleProvider} from '../config/Firebase';
 import { 
@@ -8,19 +8,27 @@ import {
         signInWithPopup
     } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from '../App';
 
 import '../static/css/Login.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import logo from '../static/images/logo.svg';
+import { Button } from 'react-bootstrap';
 
 // spinner for loading...
 
 
 export const Login = () => {
     const navigate = useNavigate();
-    const notify = (text) => toast(text);
+    const notify = (text) => {
+        try {
+            toast(text);
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+    }
 
     const { setUser, email, setEmail } = useContext(UserContext)
     const [isLoading, setLoading] = useState(false);
@@ -39,14 +47,8 @@ export const Login = () => {
                 setUser(userCredential.user);
                 console.log(user.uid);
                 setLoading(false);
-                navigate("/");
-                addNotification({
-                    title: 'TastyTracker',
-                    message: 'Login successful',
-                    duration: 4000,
-                    icon: logo, // custom logo would be nice
-                    native: true,
-                })
+                navigate("/", {state: {msg: "Login successful"}});
+                
             })
         } catch(err) {
             const errorMessage = err.message;
@@ -63,13 +65,6 @@ export const Login = () => {
               setLoading(false);
   
               navigate('/');
-              addNotification({
-                title: 'TastyTracker',
-                message: 'Login successful',
-                duration: 4000,
-                icon: logo, // custom logo would be nice
-                native: true,
-            })
             });
         } catch(err) {
             console.error(err);
@@ -103,6 +98,7 @@ export const Login = () => {
         <div className='login-page'>
             <h3 className='app-name'> TastyTracker </h3>
             <div className="auth-form-container">
+                
             <form className="login-form" onSubmit={handleSubmit}>
                 <input 
                 onChange={(e) => setEmail(e.target.value)} 
@@ -126,6 +122,7 @@ export const Login = () => {
             <p>No account yet? <a href="/register" className='to-register'>click here</a></p>
             { /* <button onClick={redirectSignIn}>Sign in</button> */ }
             </div>
+            <ToastContainer />
             
         </div>
     )

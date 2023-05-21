@@ -47,9 +47,9 @@ export async function uploadImage(imageFile, timeStamp, geoLocation, selectedTag
         } else {
             console.log("Upload Finished vibrate signal not available on this device");
         }
-        console.log("image uploaded");
+        //console.log("image uploaded");
         
-        alert("image uploaded");
+        //alert("image uploaded");
         //navigate('/');
         return 1;
 

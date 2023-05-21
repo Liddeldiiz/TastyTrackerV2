@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import addNotification from 'react-push-notification';
+import { ToastContainer, toast } from "react-toastify";
+//import addNotification from 'react-push-notification';
 
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Button } from 'react-bootstrap';
@@ -9,8 +10,17 @@ import { db } from '../config/Firebase';
 import { collection, query, where, onSnapshot, doc, setDoc } from 'firebase/firestore';
 
 import logo from '../static/images/logo.svg';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const NotificationSettings = () => {
+
+    const notify = (text) => {
+        try {
+            toast(text);
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+    }
     const navigate = useNavigate();
     const location = useLocation(); // location for file
     
@@ -74,25 +84,15 @@ export const NotificationSettings = () => {
         //console.log("Time values: ", timeValues);
         setDoc(docRef, finalData)
             .then(docRef => {
-                addNotification({
-                    title: 'TastyTracker',
-                    message: 'Settings have been updated successfully',
-                    duration: 4000,
-                    icon: logo, // custom logo would be nice
-                    native: true,
-                })
+
+                navigate('/', {state: {msg: 'Settings have been updated successfully'}});
             })
             .catch(error => {
-                alert("An error has occured while trying to upadet the settings", error);
-                addNotification({
-                    title: 'TastyTracker',
-                    message: `An error has occured while trying to upadet the settings, ${error}`,
-                    duration: 4000,
-                    icon: logo, // custom logo would be nice
-                    native: true,
-                })
+                
+                const errorMessage = `An error has occured while trying to upadet the settings, ${error}`;
+                notify(errorMessage);
             });
-        navigate('/');
+        
         
     }
 
@@ -143,10 +143,10 @@ export const NotificationSettings = () => {
                 {renderMealTimeSettings()}
                 <Button type='submit' className="my-button"> Save </Button>
             </form>
-            <Button onClick={test}>Test</Button>
+            
             </div>
             }
-            
+            <ToastContainer />
         </div>
     )
 }

@@ -7,10 +7,13 @@
     }
   }
   .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 10px solid #f3f3f3; /* Light grey */
-    border-top: 10px solid #383636; /* Black */
-    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    border: 2px solid #40916C;
+    border-top: 2px solid white; 
+    border-radius: 75%;
     animation: spinner 1.5s linear infinite;
+    position: absolute;
+    top: calc(50% - 12.5px);
+    left: calc(100% + 10px);
   }

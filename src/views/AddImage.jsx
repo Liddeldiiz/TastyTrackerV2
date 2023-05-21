@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import addNotification from 'react-push-notification';
+import { ToastContainer, toast } from "react-toastify";
+//import addNotification from 'react-push-notification';
 
 import { GeoPoint } from 'firebase/firestore';
 
 import { GetTags } from '../components/GetTags';
 import { uploadImage } from '../components/UploadImageV2';
-import { GeoLocation } from '../components/GeoLocation';
+
 import { UserContext } from '../App';
 
 import Button from 'react-bootstrap/Button';
@@ -16,14 +17,20 @@ import logo from '../static/images/logo.svg';
 
 //import '../static/css/App.css';
 import '../static/css/AddImage.css';
+import 'react-toastify/dist/ReactToastify.css';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 export const AddImage = () => {
 
-    
-    const [refreshKey, setRefreshKey] = useState(0); 
-
     const navigate = useNavigate();
+
+    const notify = (text) => {
+        try {
+            toast(text);
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+    }
 
     const location = useLocation(); // location for file
     const [imageFile, setImageFile] = useState(); // to pass to the db
@@ -89,10 +96,14 @@ export const AddImage = () => {
                     }
                 })
                 .catch((error) => {
-                    alert('Error querying geolocation permission: ', error);
+                    //alert('Error querying geolocation permission: ', error);
+                    const errorMessage = error.message;
+                    notify(errorMessage);
                 });
         } else {
-            alert('Geolocation is not supported');
+            //alert('Geolocation is not supported');
+            const errorMessage = 'Geolocation is not supported';
+            notify(errorMessage);
         }
     }, [])
 
@@ -106,7 +117,10 @@ export const AddImage = () => {
             getCurrentLocation();
           },
           (error) => {
-            alert('Error requesting geolocation permission:', error);
+            //alert('Error requesting geolocation permission:', error);
+            
+            const errorMessage = `Error requesting geolocation permission: ${error}`;
+            notify(errorMessage);
           }
         );
       };
@@ -117,10 +131,12 @@ export const AddImage = () => {
             setLatitude(position.coords.latitude);
             setLongitude(position.coords.longitude);
             // Use the obtained latitude and longitude values
-            alert('Current location:', latitude, longitude);
+            //alert('Current location:', latitude, longitude);
           },
           (error) => {
-            alert('Error retrieving current location:', error);
+            //alert('Error retrieving current location:', error);
+            const errorMessage = `Error retrieving current location: ${error}`;
+            notify(errorMessage);
           }
         );
       };
@@ -129,6 +145,8 @@ export const AddImage = () => {
         // Geolocation permission denied or unavailable
         // Handle the situation accordingly (e.g., display an error message)
         alert('Geolocation permission denied or unavailable');
+        const errorMessage = 'Geolocation permission denied or unavailable';
+        notify(errorMessage);
       }
 
     function previewFile() {
@@ -180,23 +198,23 @@ export const AddImage = () => {
       
         try {
           await uploadImage(imageFile, timeStamp, geoLocation, selectedTag, note);
-          navigate('/');
-          addNotification({
-            title: 'TastyTracker',
-            message: 'Image uploaded successfully',
-            duration: 4000,
-            icon: logo, // custom logo would be nice
-            native: true,
-        })
+          const message = 'Image uploaded successfully';
+            notify(message);
+          navigate('/', {state: {msg: 'Image uploaded successfully'}});
+          
+        
         setUploading(false);
         } catch (error) {
+            /*
           addNotification({
             title: 'TastyTracker',
             message: `Error uploading image: ${error.message}`,
             duration: 4000,
             icon: logo, // custom logo would be nice
             native: true,
-        })
+        })*/
+        const errorMessage = `Error uploading image: ${error.message}`;
+        notify(errorMessage);
         setUploading(false);
         }
       };
@@ -236,11 +254,14 @@ export const AddImage = () => {
                         Location: {isGeo ? (<><p>{geoLocation.latitude}, {geoLocation.longitude}</p></>) : (<><p>loading...</p></>)}
                         
                     </div>
-                    { /* <div className='div-upload-component'> */ }
-                    <button type="submit">Add</button>
-                    {isUploading ? <LoadingSpinner /> : null}
+                    <div className='div-upload-component'>
+                    <button type="submit" className='submit-button'>Add</button>
+                    <div className='spinner-div'>
+                        {isUploading ? <LoadingSpinner /> : null}
+                    </div>
+                    <ToastContainer />
                         
-                    { /* </div> */ }
+                    </div>
                 </div>
             </form>
         </div>

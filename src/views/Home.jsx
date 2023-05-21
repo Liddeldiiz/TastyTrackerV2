@@ -3,6 +3,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { collection, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
 
 import { AccordionHome } from '../components/AccordionHome';
 import { GetImages } from '../components/GetImagesV2';
@@ -35,7 +36,24 @@ export const Home = () => {
   const [currentTime, setCurrentTime] = useState();
   //const [nextAlarm, setNextAlarm] = useState();
   const [milisecToAlarm, setMiliSecToAlarm] = useState();
+  const [isLogin, setIsLogin] = useState(true);
   
+
+  const notify = () => {
+    try {
+        toast(location.state.msg);
+    } catch (error) {
+        console.log("Error: ", error);
+    }
+}
+
+useEffect(() => {
+  
+  if (!isLogin) {
+    notify();
+    setIsLogin(true);
+  }
+}, [isLogin])
 
   useEffect(() => {
     
@@ -55,6 +73,8 @@ export const Home = () => {
 
     if (newUser) {
       getDataFromDb();
+      setIsLogin(false);
+
       
     }
 
@@ -230,6 +250,7 @@ export const Home = () => {
 
   return (
     <div className='app-page'>
+      <ToastContainer />
       {isLoading ? 
       <LoadingSpinner /> :
        <>

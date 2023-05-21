@@ -24,12 +24,7 @@ export const Library = () => {
     const [loader, setLoader] = useState(false);
 
     var tempUser;
-    onAuthStateChanged(auth, (currentUser) => {  
-        //console.log("current user uid: ", user.uid);
-        setUser(currentUser);
-        tempUser = currentUser;
-        //console.log("temp user: ", tempUser);
-    });
+    
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {  
