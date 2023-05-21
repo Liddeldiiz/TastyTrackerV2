@@ -16,6 +16,7 @@ import Gallery from 'react-grid-gallery';
 import MasonryList, {ResponsiveMasonry} from 'react-responsive-masonry';
 import Masonry from 'react-responsive-masonry';
 
+import '../static/css/Library.css';
 
 export const Library = () => {
 
@@ -106,18 +107,17 @@ export const Library = () => {
                     
     return (
         <div>
-          <div>
-            <img src={folder_icon} className='lib-img' />
-            <h3 className='lib-desc'> Library </h3>
+          <div className='lib-header'>
+            <div className='lib-header-title'>
+              <img src={folder_icon} className='lib-img' />
+              <h3 className='lib-desc'> Library </h3>
+            </div>
             <a href='/' className='home-img'>
               <img src={home_icon} className='home-img'/>     
             </a>
           </div>
           <h3> Welcome in your meal library! </h3>
           <div className='app-body'>
-            {/*<p> This is the app body. </p> 
-            <img src={filter_icon} className='filter-img' />
-            <p>Filter</p>*/}
             <div className='filter-options'>
               {/*
               <button> Day </button>

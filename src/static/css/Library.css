@@ -1,10 +1,16 @@
-.app-header {
+.lib-header {
     display: flex;
     flex-direction: row;
     align-content: center;
     width: auto;
+    justify-content: space-between;
 }
 
+.lib-header-title {
+    display: flex;
+    align-content: center;
+}
+/*
 .lib-img {
 
 }
@@ -24,9 +30,10 @@
     display: flex;
     justify-content: space-between;
 }*/
-
+/*
 img {
     height: 300px;
     width: 300px;
 }
 
+*/
