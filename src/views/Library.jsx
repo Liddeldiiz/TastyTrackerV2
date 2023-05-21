@@ -119,6 +119,7 @@ export const Library = () => {
             <img src={filter_icon} className='filter-img' />
             <p>Filter</p>
             <div className='filter-options'>
+              {/*
               <button> Day </button>
               <button> Week </button>
               <button> Month </button>
@@ -127,6 +128,7 @@ export const Library = () => {
               <button> Lunch </button>
               <button> Dinner </button>
               <button> Snack </button>
+    */}
             </div>
             <div className='uploads'>
 
