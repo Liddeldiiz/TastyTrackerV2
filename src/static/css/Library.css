@@ -12,3 +12,21 @@
 .home-img {
 
 }
+
+.uploads {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+/*
+.div-images{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}*/
+
+img {
+    height: 300px;
+    width: 300px;
+}
+

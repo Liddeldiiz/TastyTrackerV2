@@ -1,4 +1,4 @@
-import { Home } from './Home';
+
 
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { db, storage, auth } from '../config/Firebase';
@@ -12,6 +12,9 @@ import { useState, useEffect } from 'react';
 
 // import '../static/css/Library.css';
 import {Carousel, Row} from 'react-bootstrap';
+import Gallery from 'react-grid-gallery';
+import MasonryList, {ResponsiveMasonry} from 'react-responsive-masonry';
+import Masonry from 'react-responsive-masonry';
 
 
 export const Library = () => {
@@ -22,6 +25,10 @@ export const Library = () => {
     const [emptyImageList, setImageListEmpty] = useState(false);
     const [emptyMessage, setEmptyMessage] = useState();
     const [loader, setLoader] = useState(false);
+    const [displayList, setDisplayList] = useState([]);
+
+    const urlList = [];
+    const tempList = [];
 
     var tempUser;
     
@@ -33,11 +40,15 @@ export const Library = () => {
             tempUser = currentUser;
             //console.log("temp user: ", tempUser);
         });
-    
-        try {
-            getStorageItems();
-        } catch (error) {
-            console.log("error: ", error);
+    },[]);
+
+    useEffect(() => {
+      if (user.uid) {
+          try {
+              getStorageItems();
+          } catch (error) {
+              console.log("error: ", error);
+          }
         }
       }, [user])
 
@@ -71,6 +82,18 @@ export const Library = () => {
                                     return;
                                   }
                                 }
+
+                                imageList.map((url) => {
+                                  if (urlList.includes(url)) {
+                                    return null;
+                                  } else {
+                                    urlList.push(url);
+                                  }
+                                })
+
+                                
+
+                                //setDisplayList(tempList)
                                 console.log("url: ", url);
                                   setImageList((prev) => [...prev, url]);
                                   setLoader(false)
@@ -106,9 +129,50 @@ export const Library = () => {
               <button> Snack </button>
             </div>
             <div className='uploads'>
-              <h3> images </h3>
-              <div className='div-images'>
-                <div className='images-container'>
+
+              
+                    
+                        {emptyImageList ? (
+                          <>
+                              <h3>
+                                  No images added yet
+                              </h3>
+                          </>
+                      ) :
+                        <Masonry columnsCount={3} gutter='10px'>
+                          {imageList.map((url, i) => (
+                            <img 
+                              key={i}
+                              src={url}
+                              loading='lazy'
+                              style={{
+                                width: "100%",
+                                height: "auto",
+                                display: "block",
+                                marginBottom: "10px",
+                              }}
+                              alt=""
+                            />
+                          ))}
+                        </Masonry>
+                        
+                      }
+                      
+                    
+                </div>
+              </div>
+            
+
+          
+        
+      </div>
+    );
+}
+
+/*
+
+
+<div className='images-container'>
                     <Carousel>
                         {emptyImageList ? (
                           <>
@@ -122,16 +186,6 @@ export const Library = () => {
                       })}
                     </Carousel>
                 </div>
-              </div>
-            </div>
-
-          </div>
-        
-      </div>
-    );
-}
-
-/*
 
 onSnapshot(q, (snapshot) => {
             snapshot.docs.forEach((doc) => {

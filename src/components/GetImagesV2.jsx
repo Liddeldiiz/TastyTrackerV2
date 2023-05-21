@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { db, storage, auth } from '../config/Firebase';
 import { collection, getDocs, query, where, onSnapshot, DocumentSnapshot, QuerySnapshot } from 'firebase/firestore';
@@ -199,7 +200,11 @@ export const GetImages = ( props ) => {
             return null;
           } else {
             urlList.push(url);
-            return <Carousel.Item><img src={url} alt='img' className='home-page-images'/></Carousel.Item>
+            return (
+            <Carousel.Item>
+              
+              <img src={url} alt='img' loading="lazy" className='home-page-images'/>
+              </Carousel.Item>)
           }
           
         })}
@@ -210,3 +215,16 @@ export const GetImages = ( props ) => {
   );
 }
 
+/*  
+
+
+<LazyLoadImage 
+              src={url} 
+              alt='img' 
+              height={300}
+              width={300}
+              className='home-page-images'
+              effect="blur"
+              placeholder={url}
+              />
+*/
